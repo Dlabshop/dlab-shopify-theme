@@ -1,0 +1,338 @@
+<div class="distance" style="padding-top: {{ section.settings.distance_top }}; padding-bottom: {{ section.settings.distance_bottom }}">
+<div class="{{ section.settings.class}}" data-section-id="{{ section.id }}" data-section-type="nov-slick">
+  {% if section.settings.has_fullwidth == false %}
+    <div class="container">
+  {% endif %}
+    <div class="page-width product_deals">
+      <div class="block">
+        <div class="{{ section.settings.title_alignment }}">
+          {% if section.settings.title != blank %}
+            <div class="title_block">
+              <i class="zmdi zmdi-flash"></i>
+              <span>{{ section.settings.title | nofilter }}</span>
+            </div>
+          {% endif %}
+          {% if section.settings.subheading != blank %}
+            <div class="sub_title">{{ section.settings.subheading | escape }}</div>
+          {% endif %}
+        </div>
+
+        {% case section.settings.grid_number %}
+        {% when '2' %}
+          {%- assign img_size = settings.img_size_large -%}
+        {% when '3' %}
+          {%- assign img_size = settings.img_size_large -%}
+        {% when '4' %}
+          {%- assign img_size = settings.img_size -%}
+        {% when '5' %}
+          {%- assign img_size = settings.img_size -%}
+        {% when '6' %}
+          {%- assign img_size = settings.img_size -%}
+        {% endcase %}
+
+          <div class="grid--view-items row nov-slick-carousel"
+            data-autoplay="{{ section.settings.autoplay }}"
+            data-autoplayTimeout="{{ section.settings.autoplay_timeout }}"
+            data-loop="true"
+            data-dots="{{ section.settings.show_dots }}"
+            data-nav="{{ section.settings.show_nav }}"
+            data-items="{{ section.settings.grid_number }}"
+            data-items_lg_tablet="{{ section.settings.grid_number_lg_tablet }}"
+            data-items_tablet="{{ section.settings.items_tablet }}"
+            data-items_mobile="{{ section.settings.items_mobile }}"
+            data-items_mobiles="{{ section.settings.items_mobiles }}">
+            {% for block in section.blocks %}
+              {% assign product = all_products[block.settings.product_handle] %}
+              {% assign variantCount = product.variants | size %}
+              {% if product != empty %}
+                <div class="item">
+                  <div class="item-shadow">
+                    <div class="item-product{% unless product.available %} product-price--sold-out{% endunless %}">
+                      <div class="thumbnail-container{% if product.images.size > 2 %} has-multiimage{% endif %}">
+                        <a href="{{ product.url | within: collection }}">
+                          <img class="img-fluid product__thumbnail lazyload" src="{{ product.featured_image | product_img_url: '470x' }}" alt="{{ product.featured_image.alt | escape }}">
+                          {% for image in product.images %}
+                            {% if forloop.first != true %}
+                                <img class="img-fluid product__thumbnail-second" src="{{ image.src | product_img_url: '470x' }}" alt="{{ product.featured_image.alt | escape }}">
+                                {% break %}
+                            {% endif %}
+                          {% endfor %}
+                        </a>
+                        {%- if block.settings.countdown_timeend != blank -%}
+                          {%- assign countdownTime = block.settings.countdown_timeend -%}
+                          <div class="countdownfree" data-countdown="{{ countdownTime }}"></div>
+                        {%- endif -%}
+                        {% if product.compare_at_price > product.price %}
+                          <div class="badge_sale">
+                            <div class="badge badge--sale-rt">{{ 'products.product.new' | t }}</div>
+                            <span class="badge badge--sale-pt">-{{ product.compare_at_price | minus: product.price | times: 100 | divided_by: product.compare_at_price | round: 4 }}%</span>
+                          </div>
+                        {% endif %}
+                      </div>
+                      <div class="product__info">
+                        <div class="product__title">
+                          <a href="{{ product.url | within: collection }}">{{ product.title | truncatewords: 15 }}</a>
+                        </div>
+                    
+                        {% if settings.show_rating %}
+                        <div class="product__review">
+                          <div class="rating"><span class="shopify-product-reviews-badge" data-id="{{ product.id }}"></span></div>
+                        </div>
+                        {% endif %}
+
+                        <div class="product__price">
+                          {% include 'product-price' %}
+                        </div>
+                        
+                        {% if section.settings.show_variant_color and variantCount > 1 %}
+                          {% include 'nov-swatch-color' with 'Color' %}
+                        {% endif %}
+                              
+                        <div class="group-buttons d-flex{% if justify.size > 0 %} {{ justify }}{% endif %}">
+                          {% assign variantCount = product.variants | size %}
+                          <form class="formAddToCart" action="/cart/add" method="post" enctype="multipart/form-data">
+                            <input type="hidden" name="id" value="{{ product.variants.first.id }}" />
+                            {% if sold_out %}
+                              <button class="btn btnAddToCart disabled" type="submit" value="Submit" 
+                                data-handle="{{ product.handle }}"
+                                {% if settings.tooltip_enable %} 
+                                  data-toggle="tooltip" 
+                                  data-placement="top" 
+                                {% endif %}
+                                title="" tabindex="0" disabled >
+                                <i class="zmdi zmdi-block-alt"></i>
+                              </button>
+                            {% else %}
+                              {% if variantCount > 1 %}
+                                <a class="btn btnAddToCart btnChooseVariant" 
+                                  href="javascript:void(0);" 
+                                  data-url="/products/{{ product.handle }}?view=json"
+                                  {% if settings.tooltip_enable %} 
+                                    data-toggle="tooltip" 
+                                    data-placement="top" 
+                                  {% endif %}
+                                  title="" tabindex="0">
+                                  <i class="zmdi zmdi-check"></i>
+                                  <span>{{ 'products.product.select_options' | t }}</span>
+                                </a>
+                              {% else %}
+                                <button class="btn btnAddToCart" type="submit" value="Submit" 
+                                  data-handle="{{ product.handle }}"
+                                  data-pid="{{ product.variants.first.id }}"
+                                  {% if settings.tooltip_enable %} 
+                                    data-toggle="tooltip" 
+                                    data-placement="top" 
+                                  {% endif %}
+                                  title="" tabindex="0">
+                                  <i class="icon_cart"></i>
+                                  <span>{{ 'products.product.add_to_cart' | t }}</span>
+                                </button>
+                              {% endif %}
+                            {% endif %}
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              {% endif %}
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+  {% if section.settings.has_fullwidth == false %}
+    </div>
+  {% endif %}
+</div>
+
+{% schema %}
+{
+  "name": "Vinova products deal",
+  "class": "index-section section-product-deal",
+  "settings":[
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Vinova Products List"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Sub Heading",
+      "default": "Subtitle from happy customers"
+    },
+    {
+      "type": "select",
+      "id": "title_alignment",
+      "label": "Title alignment",
+      "default": "text-left",
+      "options": [
+        {
+          "value": "text-left",
+          "label": "Left"
+        },
+        {
+          "value": "text-center",
+          "label": "Center"
+        },
+        {
+          "value": "text-right",
+          "label": "Right"
+        }
+      ]
+    },
+    {
+      "type": "checkbox",
+      "id": "show_nav",
+      "label": "Show navigation",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_dots",
+      "label": "Show dots",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "autoplay",
+      "label": "Auto play",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_variant_color",
+      "label": "Show Variant Color",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "autoplay_timeout",
+      "label": "Autoplay timeout",
+      "placeholder": "Default: 10000(ms)",
+      "info": "Autoplay interval timeout.",
+      "default": "10000"
+    },
+    {
+      "type": "range",
+      "id": "grid_number",
+      "min": 1,
+      "max": 5,
+      "step": 1,
+      "label": "Grid items Large Desktop",
+      "default": 3,
+      "info": "Large desktops"
+    },
+    {
+      "type": "range",
+      "id": "grid_number_lg_tablet",
+      "min": 1,
+      "max": 5,
+      "step": 1,
+      "label": "Grid items Desktop",
+      "default": 3,
+      "info": "Desktops"
+    },
+    {
+      "type": "range",
+      "id": "items_tablet",
+      "min": 1,
+      "max": 5,
+      "step": 1,
+      "label": "Tablet items",
+      "default": 3,
+      "info": "Tablets landscape"
+    },
+    {
+      "type": "range",
+      "id": "items_mobile",
+      "min": 1,
+      "max": 5,
+      "step": 1,
+      "label": "Mobile items",
+      "default": 1,
+      "info": "Mobile phone"
+    },
+    {
+      "type": "range",
+      "id": "items_mobiles",
+      "min": 1,
+      "max": 5,
+      "step": 1,
+      "label": "Mobiles items",
+      "default": 1,
+      "info": "Mobiles phone"
+    },
+    {
+      "type": "text",
+      "id": "class",
+      "label": "Class"
+    },
+    {
+      "type": "checkbox",
+      "id": "has_fullwidth",
+      "label": "Full Width",
+      "default":   false
+    },
+    {
+      "type": "text",
+      "id": "distance_top",
+      "label": "Top Distance Section",
+      "default": "30px"
+    },
+    {
+      "type": "text",
+      "id": "distance_bottom",
+      "label": "Bottom Distance Section",
+      "default": "30px"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "productcountdownlist",
+      "name": "Product Item",
+      "settings": [
+        {
+          "type": "product",
+          "id": "product_handle",
+          "label": "Product"
+        },
+        {
+          "type": "header",
+          "content": "Countdown timer"
+        },
+        {
+          "type": "text",
+          "id": "countdown_timeend",
+          "label": "Time End",
+          "placeholder": "YYYY\/MM\/DD"
+        },
+        {
+          "type": "paragraph",
+          "content": "Format: 'Year\/Month\/Day'"
+        },
+        {
+          "type": "paragraph",
+          "content": "Example: '2019\/01\/30'"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Vinova Products deal",
+      "category": "Product",
+      "settings": {
+        "title": "Product List Countdown"
+      },
+      "blocks": [
+        {
+        "type":"productcountdownlist"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

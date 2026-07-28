@@ -1,0 +1,135 @@
+{%- assign bg_image = section.settings.background_image -%}
+{% if section.settings.background_color != blank or bg_image.src != blank %}
+  <style>
+    .page-comingsoon-light {
+      {% if section.settings.background_color != blank %}
+        background-color: {{ section.settings.background_color }};
+      {% endif %}
+      {% if bg_image.src != blank %}
+        background-image: url("{{ bg_image | img_url: '1920x' }}");
+        background-repeat: no-repeat;
+      {% endif %}
+    }
+  </style>
+{% endif %}
+<section id="content" class="page-content">
+  <div class="content-comingsoon text-center">
+    {% if section.settings.logo != blank %}
+      <div class="logo">
+        <img class="img-fluid" src="{{ section.settings.logo | img_url: '1920x' }}" alt="Logo">
+      </div>
+    {% endif %}
+  </div>
+  <div class="content_coming">
+    <div class="content_text text-center">
+      {% if section.settings.subheading != blank %}
+        <div class="sub_title">
+          <span>{{ section.settings.subheading | escape }}</span>
+        </div>
+      {% endif %}
+      {% if section.settings.desc != blank %}
+        <div class="decs_title">
+          <span>{{ section.settings.desc | escape }}</span>
+        </div>
+      {% endif %}
+    </div>
+
+    {%- if section.settings.countdown_timeend != blank -%}
+      <div class="countdown">
+        {%- assign countdownTime = section.settings.countdown_timeend -%}
+        <div class="countdownfree" data-countdown="{{ countdownTime }}"></div>
+      </div>
+    {%- endif -%}
+
+    <div class="comingsoon-sub">
+      <div class="sub">
+        <div class="block-content">
+          <div class="tx-coming-email">{{ 'general.comingsoon.comingsoon_text' | t }}</div>
+          <div class="site-comingsoon-sub">
+            {% form 'customer' %}
+              {{ form.errors | default_errors }}
+              {% if form.posted_successfully? %}
+                <p class="form--success text-center" style="color: #fff;">{{ 'general.newsletter_form.confirmation' | t }}</p>
+              {% else %}
+                <div class="input-group">
+                  <input type="hidden" name="contact[tags]" value="comingsoon">
+                  <input type="email"
+                    name="contact[email]"
+                    id="Email_com_light"
+                    class="input-group__field comingsoon_input form-control"
+                    value="{% if customer %}{{ customer.email }}{% endif %}"
+                    placeholder="{{ 'general.comingsoon.email_comingsoon' | t }}">
+                </div>
+                <div class="input-group__btn">
+                  <button type="submit" class="btn comingsoon_submit d-flex align-items-center" name="commit">
+                    {{ 'general.comingsoon.submit' | t }}
+                  </button>
+                </div>
+              {% endif %}
+            {% endform %}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {% include 'nov-social' %}
+  </div>
+</section>
+
+{% schema %}
+  {
+    "name": "Vinova Page Coming Light",
+    "class": "index-section page-comingsoon-light wow fadeIn animated",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Title"
+      },
+      {
+        "type": "image_picker",
+        "id": "logo",
+        "label": "Logo"
+      },
+      {
+        "type": "text",
+        "id": "subheading",
+        "label": "Sub Heading",
+        "default": "Our website is coming soon...."
+      },
+      {
+        "type": "text",
+        "id": "desc",
+        "label": "Description",
+        "default": "We are currently updating our website and will be back really soon. Thanks for your patience"
+      },
+      {
+        "type": "color",
+        "id": "background_color",
+        "label": "Background colors"
+      },
+      {
+        "type": "image_picker",
+        "id": "background_image",
+        "label": "Background image"
+      },
+      {
+        "type": "header",
+        "content": "Countdown timer"
+      },
+      {
+        "type": "text",
+        "id": "countdown_timeend",
+        "label": "Time End",
+        "placeholder": "YYYY\/MM\/DD"
+      },
+      {
+        "type": "paragraph",
+        "content": "Format: 'Year\/Month\/Day'"
+      },
+      {
+        "type": "paragraph",
+        "content": "Example: '2019\/01\/30'"
+      }
+    ]
+  }
+{% endschema %}

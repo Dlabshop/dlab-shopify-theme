@@ -1,0 +1,201 @@
+<div class="distance" style="padding-top: {{ section.settings.distance_top }}; padding-bottom: {{ section.settings.distance_bottom }}">
+	{% if section.settings.has_fullwidth == false %}
+	 	<div class="container">
+	{% endif %}
+		{% if section.settings.title != blank %}
+			<div class="title_block {{ section.settings.title_alignment }}">
+				<span>{{ section.settings.title }}</span>
+				{% if section.settings.sub_title != blank %}
+					<div class="sub_title">{{ section.settings.sub_title }}</div>
+				{% endif %}
+			</div>
+		{% endif %}
+		<div class="row spacing-{{ section.settings.spacing }} nov-shop-by-cagegories">
+			{% case section.blocks.size %}
+	          {% when 1 %}
+	            {%- assign column_size = 'column-items col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12' -%}
+	          {% when 2 %}
+	            {%- assign column_size = 'column-items col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-6' -%}
+	          {% when 3 %}
+	            {%- assign column_size = 'column-items col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-6' -%}
+	          {% when 4 %}
+	            {%- assign column_size = 'column-items col-xl-3 col-lg-3 col-md-3 col-sm-6 col-xs-6' -%}
+	          {% else %}
+	            {%- assign column_size = 'column-items col-xl-cus-5 col-lg-cus-5 col-md-cus-5 col-sm-12' -%}
+	        {% endcase %}
+			{% for blocks in section.blocks %}
+				<div class="{{ column_size }}">
+	        		<div class="column_group">
+	        			<a href="{{ blocks.settings.link_title }}">
+	        				<img class="img-fluid" src="{{ blocks.settings.img | img_url: '768x' }}" alt="">
+	        			</a>
+	        			<div class="title">
+	        				<a href="{{ blocks.settings.link_title }}">{{ blocks.settings.title | escape }}</a>
+	        			</div>
+	        			<div class="link-menu">
+	        				{% for link in linklists[blocks.settings.link_list].links %}
+	        				{%- assign three_level_nav = false -%}
+	        				{%- assign child_list_handle = link.title | handleize -%}
+	        				{% if linklists[child_list_handle].links != blank %}
+	        				{% for childlink in linklists[child_list_handle].links %}
+	        				{% assign grand_child_list_handle = childlink.title | handleize %}
+	        				{% if linklists[grand_child_list_handle].links != blank %}
+	        				{%- assign three_level_nav = true -%}
+	        				{% endif %}
+	        				{% endfor %}
+	        				{% endif %}
+	        				{% if linklists[child_list_handle].links != blank %}
+	        				<div class="link_menu hasSubCategory open">
+	        					<span class="arrow"></span>
+	        					<a class="menu-item {% if link.active %}active{% endif %}" href="{{ link.url }}">{{ link.title }}</a>
+	        					<div class="subCategory" id="subCategory-{{ child_list_handle }}">
+	        						{% for childlink in linklists[child_list_handle].links %}
+	        						<div class="cateTitle">
+	        							<a href="{{ childlink.url }}" class="menu-item{% if childlink.active %} active{% endif %}{% if forloop.last %} menu-item--last{% endif %}">{{ childlink.title | escape }}</a>
+	        						</div>
+	        						{% endfor %}
+	        					</div>
+	        				</div>
+	        				{% else %}
+	        				<div class="link_menu">
+	        					<a class="menu-item {% if link.active %}active{% endif %}" href="{{ link.url }}">{{ link.title }}</a>
+	        				</div>
+	        				{% endif %}
+	        				{% endfor %}
+	        			</div>
+	        		</div>
+				</div>
+			{% endfor %}
+		</div>
+	{% if section.settings.has_fullwidth == false %}
+	 	</div>
+	{% endif %}
+</div>
+{% schema %}
+	{
+		"name": "Shop by",
+		"class": "index-section shop-by wow fadeIn animated",
+		"max_blocks": 6,
+		"settings": [
+			{
+				"type": "text",
+				"id": "title",
+				"label": "Heading",
+				"default": "Vinova Shop by"
+			},
+			{
+				"type": "text",
+				"id": "subheading",
+				"label": "Sub Heading",
+				"default": "Subtitle from happy customers"
+			},
+			{
+				"type": "select",
+				"id": "title_alignment",
+				"label": "Title alignment",
+				"default": "text-left",
+				"options": [
+				{
+					"value": "text-left",
+					"label": "Left"
+				},
+				{
+					"value": "text-center",
+					"label": "Center"
+				},
+				{
+					"value": "text-right",
+					"label": "Right"
+				}
+				]
+			},
+			{
+                "type": "select",
+                "id": "spacing",
+                "label": "Spacing Items",
+                "default": "0",
+                "options": [
+                    {
+                        "label": "0px",
+                        "value": "0"
+                    },
+                    {
+                        "label": "5px",
+                        "value": "5"
+                    },
+                    {
+                        "label": "10px",
+                        "value": "10"
+                    },
+                    {
+                        "label": "15px",
+                        "value": "15"
+                    },
+                    {
+                        "label": "20px",
+                        "value": "20"
+                    },
+                    {
+                        "label": "25px",
+                        "value": "25"
+                    },
+                    {
+                        "label": "30px",
+                        "value": "30"
+                    }
+                ]
+            },
+			{
+				"type": "checkbox",
+				"id": "has_fullwidth",
+				"label": "Full Width",
+				"default":   false
+			},
+			{
+				"type": "text",
+				"id": "distance_top",
+				"label": "Top Distance Section",
+				"default": "30px"
+			},
+			{
+				"type": "text",
+				"id": "distance_bottom",
+				"label": "Bottom Distance Section",
+				"default": "30px"
+			}
+		],
+		"blocks": [
+			{
+				"type": "tabitem",
+				"name": "tab item",
+				"settings": [
+					{
+						"type": "image_picker",
+						"id": "img",
+						"label": "Image"
+					},
+					{
+						"type": "text",
+						"id": "title",
+						"label": "Title"
+					},
+					{
+						"type": "url",
+						"id": "link_title",
+						"label": "Link for Title"
+					},
+					{
+						"type": "link_list",
+						"id": "link_list",
+						"label": "Choose menu",
+						"info": "Choose menu"
+					}
+				]
+			}
+		],
+		"presets": [{
+	    "name": "Shop by selection",
+	    "category": "Shop by"
+	  }]  
+	}
+{% endschema %}

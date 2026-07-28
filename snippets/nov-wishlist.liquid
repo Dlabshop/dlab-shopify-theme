@@ -1,0 +1,14 @@
+<div class="productWishList mr-5" onclick="return false;">
+  <a class="wishlist btn btnProduct btnProductWishlist" 
+    data-icon-wishlist href="#" 
+    data-product-handle="{{ product.handle }}" 
+    data-id="{{ product.id | json }}"
+    {% if settings.tooltip_enable %}
+      data-toggle="tooltip" 
+      data-placement="top" 
+      data-original-title="{{ 'products.butttons.wishlist' | t }}"
+    {% endif %}>
+    <i class="fa_wishlist"></i>
+    <!-- <span class="wishlist-text text-hover">Add to Wish List</span> -->
+  </a>
+</div>

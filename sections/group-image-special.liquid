@@ -1,0 +1,238 @@
+<div class="distance" style="padding-top: {{ section.settings.distance_top }}; padding-bottom: {{ section.settings.distance_bottom }}">
+  	{% if section.settings.has_fullwidth == false %}
+  	<div class="container">
+  	{% endif %}
+	  	<div class="row spacing-{{ section.settings.spacing }} {% if section.settings.row_reverse == true %}flex-row-reverse{% endif %}">
+	  		<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+		  		<div class="banner_lf">
+		  			<div class="gallery-image_gr {% if section.settings.class_1 != blank %}{{ section.settings.class_1 }}{% endif %}">
+		  				{% if section.settings.img_1 != blank %}
+			  				<div class="gallery-image__item{% if section.settings.class_img_1 != blank %} {{ section.settings.class_img_1 }}{% endif %}">
+			  					<a href="{{ section.settings.link_img_1 }}">
+			  						{% if section.settings.img_1 != blank %}
+                                        <img src="{{ section.settings.img_1 | img_url: '1920x' }}" alt="image">
+                                    {% else %}
+                                        {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+                                    {% endif %}
+			  					</a>
+			  				</div>
+		  				{% endif %}
+		  			</div>
+		  		</div>
+		  	</div>
+	  		<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+		  		<div class="banner_lr">
+		  			<div class="row spacing-{{ section.settings.spacing }} {% if section.settings.row_reverse == true %}flex-row-reverse{% endif %}">
+				  		<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-6">
+				  			<div class="gallery-image_gr {% if section.settings.class_2 != blank %}{{ section.settings.class_2 }}{% endif %}">
+				  				{% if section.settings.img_2 != blank %}
+					  				<div class="gallery-image__item{% if section.settings.class_img_2 != blank %} {{ section.settings.class_img_2 }}{% endif %}">
+					  					<a href="{{ section.settings.link_img_2 }}">
+					  						{% if section.settings.img_2 != blank %}
+		                                        <img src="{{ section.settings.img_2 | img_url: '1920x' }}" alt="image">
+		                                    {% else %}
+		                                        {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+		                                    {% endif %}
+					  					</a>
+					  				</div>
+				  				{% endif %}
+				  			</div>
+				  			<div class="gallery-image_gr {% if section.settings.class_3 != blank %}{{ section.settings.class_3 }}{% endif %}">
+				  				{% if section.settings.img_3 != blank %}
+					  				<div class="gallery-image__item{% if section.settings.class_img_3 != blank %} {{ section.settings.class_img_3 }}{% endif %}">
+					  					<a href="{{ section.settings.link_img_3 }}">
+					  						{% if section.settings.img_3 != blank %}
+		                                        <img src="{{ section.settings.img_3 | img_url: '1920x' }}" alt="image">
+		                                    {% else %}
+		                                        {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+		                                    {% endif %}
+					  					</a>
+					  				</div>
+				  				{% endif %}
+				  			</div>
+				  		</div>
+				  		<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-6">
+				  			<div class="gallery-image_gr {% if section.settings.class_4 != blank %}{{ section.settings.class_4 }}{% endif %}">
+				  				{% if section.settings.img_4 != blank %}
+					  				<div class="gallery-image__item{% if section.settings.class_img_4 != blank %} {{ section.settings.class_img_4 }}{% endif %}">
+					  					<a href="{{ section.settings.link_img_4 }}">
+					  						{% if section.settings.img_4 != blank %}
+		                                        <img src="{{ section.settings.img_4 | img_url: '1920x' }}" alt="image">
+		                                    {% else %}
+		                                        {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+		                                    {% endif %}
+					  					</a>
+					  				</div>
+				  				{% endif %}
+				  			</div>
+				  			<div class="gallery-image_gr {% if section.settings.class_5 != blank %}{{ section.settings.class_5 }}{% endif %}">
+				  				{% if section.settings.img_5 != blank %}
+					  				<div class="gallery-image__item{% if section.settings.class_img_5 != blank %} {{ section.settings.class_img_5 }}{% endif %}">
+					  					<a href="{{ section.settings.link_img_5 }}">
+					  						{% if section.settings.img_5 != blank %}
+		                                        <img src="{{ section.settings.img_5 | img_url: '1920x' }}" alt="image">
+		                                    {% else %}
+		                                        {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+		                                    {% endif %}
+					  					</a>
+					  				</div>
+				  				{% endif %}
+				  			</div>
+				  		</div>
+				  	</div>
+		  		</div>
+		  	</div>
+	  	</div>
+	{% if section.settings.has_fullwidth == false %}
+  	</div>
+  	{% endif %}
+</div>
+
+{% schema %}
+	{
+		"name": "Group image special",
+		"class": "group-image-special wow fadeIn animated",
+		"settings": [
+			{
+				"type": "image_picker",
+				"id": "img_1",
+				"label": "Image 1"
+			},
+			{
+				"type": "url",
+				"id":  "link_img1",
+				"label": "Link Img 1"
+			},
+			{
+				"type": "text",
+				"id": "class_1",
+				"label": "Class"
+			},
+			{
+				"type": "image_picker",
+				"id": "img_2",
+				"label": "Image 2"
+			},
+			{
+				"type": "url",
+				"id":  "link_img2",
+				"label": "Link Img 2"
+			},
+			{
+				"type": "text",
+				"id": "class_2",
+				"label": "Class"
+			},
+			{
+				"type": "image_picker",
+				"id": "img_3",
+				"label": "Image 3"
+			},
+			{
+				"type": "url",
+				"id":  "link_img3",
+				"label": "Link Img 3"
+			},
+			{
+				"type": "text",
+				"id": "class_3",
+				"label": "Class"
+			},
+			{
+				"type": "image_picker",
+				"id": "img_4",
+				"label": "Image 4"
+			},
+			{
+				"type": "url",
+				"id":  "link_img4",
+				"label": "Link Img 4"
+			},
+			{
+				"type": "text",
+				"id": "class_4",
+				"label": "Class"
+			},
+			{
+				"type": "image_picker",
+				"id": "img_5",
+				"label": "Image 5"
+			},
+			{
+				"type": "url",
+				"id":  "link_img5",
+				"label": "Link Img 5"
+			},
+			{
+				"type": "text",
+				"id": "class_5",
+				"label": "Class"
+			},
+			{
+				"type": "select",
+				"id": "spacing",
+				"label": "Spacing Items",
+				"default": "0",
+				"options": [
+					{
+						"label": "0px",
+						"value": "0"
+					},
+					{
+						"label": "5px",
+						"value": "5"
+					},
+					{
+						"label": "10px",
+						"value": "10"
+					},
+					{
+						"label": "15px",
+						"value": "15"
+					},
+					{
+						"label": "20px",
+						"value": "20"
+					},
+					{
+						"label": "25px",
+						"value": "25"
+					},
+					{
+						"label": "30px",
+						"value": "30"
+					}
+				]
+			},
+			{
+				"type": "checkbox",
+				"id": "row_reverse",
+				"label": "Row Reverse"
+			},
+			{
+				"type": "checkbox",
+				"id": "has_fullwidth",
+				"label": "Full Width",
+				"default": false
+			},
+			{
+				"type": "text",
+				"id": "distance_top",
+				"label": "Top Distance Section",
+				"default": "30px"
+			},
+			{
+				"type": "text",
+				"id": "distance_bottom",
+				"label": "Bottom Distance Section",
+				"default": "30px"
+			}
+		],
+		"presets": [
+		  {
+		    "name": "Group Image Special",
+		    "category": "Image"
+		  }
+		]
+	}
+{% endschema %}

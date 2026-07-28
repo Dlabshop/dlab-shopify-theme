@@ -1,0 +1,564 @@
+{%- assign bg_image = section.settings.background_image -%}
+
+{% if section.settings.background_color != blank or bg_image.src != blank %}
+<style>
+  #shopify-section-{{ section.id }} .nov-group-collection-product {
+    {% if section.settings.background_color != blank %}
+      background-color: {{ section.settings.background_color }};
+    {% endif %}
+    {% if bg_image.src != blank %}
+      background-image: url("{{ bg_image | img_url: '1920x1920' }}");
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+    {% endif %}
+  }
+</style>
+{% endif %}
+
+<div class="distance" style="padding-top: {{ section.settings.distance_top }}; padding-bottom: {{ section.settings.distance_bottom }}">
+  <div data-section-id="{{ section.id }}" data-section-type="nov-slick">
+    <div class="page-width">
+      {% if section.settings.has_fullwidth == false %}
+      <div class="container">
+      {% endif %}
+        <div class="nov-group-collection-product">
+          {% case section.settings.grid_number %}
+          {% when '2' %}
+            {%- assign img_size = settings.img_size_large -%}
+          {% when '3' %}
+            {%- assign img_size = settings.img_size_large -%}
+          {% when '4' %}
+            {%- assign img_size = settings.img_size -%}
+          {% when '5' %}
+            {%- assign img_size = settings.img_size -%}
+          {% when '6' %}
+            {%- assign img_size = settings.img_size -%}
+          {% endcase %}
+          <div class="row">
+            <div class="{{ section.settings.width_list_collection }} {{ section.settings.width_list_collection_lg_tablet }} {{ section.settings.width_list_collection_tablet }} col-xs-12">
+              {% if section.settings.title != blank %}
+                <div class="title_block">
+                  <span>{{ section.settings.title | escape }}</span>
+                  <div class="sub-title">{{ section.settings.sub_title }}</div>
+                </div>
+              {% endif %}
+              <div class="list_category">
+                {%- assign product_linklist = section.settings.list_category -%}
+            
+                {% if linklists[product_linklist].links.size > 0 %}
+                  {% if section.settings.titlelist_category != blank %}
+                    <div class="title_list_category">{{ section.settings.titlelist_category | nofilter }}</div>
+                  {% endif %}
+                  <ul class="site-footer__linklist list-unstyled">
+                    {% for link in linklists[product_linklist].links %}
+                      <li class="list-inline-item">
+                        <a href="{{ link.url }}">{{ link.title }}</a>
+                      </li>
+                    {% endfor %}
+                  </ul>
+                {% endif %}
+              </div>
+            </div>
+
+            <div class="{{ section.settings.width_product }} {{ section.settings.width_product_lg_tablet }} {{ section.settings.width_product_tablet }}">
+              <div class="block-content">
+                {%- assign product_limit = section.settings.limit -%}
+                {%- assign collection = collections[section.settings.collection] -%}
+                <div class="grid--view-items nov-slick-carousel"
+                data-autoplay="false" 
+                data-autoplayTimeout="6000" 
+                data-loop="false" 
+                data-dots="{{ section.settings.show_dots }}" 
+                data-nav="{{ section.settings.show_nav }}" 
+                data-items="{{ section.settings.grid_number }}" 
+                data-items_lg_tablet="{{ section.settings.grid_number_lg_tablet }}" 
+                data-items_tablet="{{ section.settings.items_tablet }}" 
+                data-items_mobile="{{ section.settings.items_mobile }}"
+                data-items_mobiles="{{ section.settings.items_mobiles }}">
+                  {% for product in collection.products limit: product_limit %}
+                    <div class="item">
+                      {% include 'product-card-grid', img_size: img_size, mr_bottom: 'mb-30' %}                         
+                    </div>
+                  {% else %}
+
+                    {% for i in (1..product_limit) %}
+                      <div class="item">
+                        <div class="item-product mb-20">
+                          <div class="thumbnail-container">
+                            <a href="{{ collection.url }}">
+                              {% capture current %}{% cycle 1, 2, 3, 4, 5, 6 %}{% endcapture %}
+                              {{ 'product-' | append: current | placeholder_svg_tag: 'placeholder-svg' }}
+                            </a>
+                          </div>
+                          <div class="product__info text-center">
+                            <div class="product__title"><a href="{{ collection.url }}">{{ 'homepage.onboarding.product_title' | t }}</a></div>
+                            <div class="product__price">
+                              {% include 'product-price' %}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    {% endfor %}
+                  {% endfor %}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      {% if section.settings.has_fullwidth == false %}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% schema %}
+  {
+    "name": "Group List collection ",
+    "class": "index-section section-group-collection-product wow fadeIn animated",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Title"
+      },
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Heading"
+      },
+      {
+        "type": "text",
+        "id": "sub_title",
+        "label": "Sub Heading"
+      },
+      {
+        "type": "color",
+        "id": "background_color",
+        "label": "Background colors"
+      },
+      {
+        "type": "image_picker",
+        "id": "background_image",
+        "label": "Background image"
+      },
+      {
+        "type": "header",
+        "content": "Product List Category"
+      },
+      {
+        "type": "link_list",
+        "id": "list_category",
+        "label": "Product List Category",
+        "info": "Choose menu for block. Add new menu: Admin -> Navigation"
+      },
+      {
+        "type": "select",
+        "id": "width_list_collection",
+        "label": "Width List Collection (Large Desktop)",
+        "default": "col-xl-4",
+        "options": [
+          {
+            "value": "col-xl-2",
+            "label": "2/12"
+          },
+          {
+            "value": "col-xl-gc-3",
+            "label": "3/12"
+          },
+          {
+            "value": "col-xl-4",
+            "label": "4/12"
+          },
+          {
+            "value": "col-xl-5",
+            "label": "5/12"
+          },
+          {
+            "value": "col-xl-6",
+            "label": "6/12"
+          },
+          {
+            "value": "col-xl-7",
+            "label": "7/12"
+          },
+          {
+            "value": "col-xl-8",
+            "label": "8/12"
+          },
+          {
+            "value": "col-xl-9",
+            "label": "9/12"
+          },
+          {
+            "value": "col-xl-10",
+            "label": "10/12"
+          },
+          {
+            "value": "col-xl-12",
+            "label": "12/12"
+          }
+        ]
+      },
+      {
+        "type": "select",
+        "id": "width_list_collection_lg_tablet",
+        "label": "Width List Collection (Desktop)",
+        "default": "col-lg-4",
+        "options": [
+          {
+            "value": "col-lg-2",
+            "label": "2/12"
+          },
+          {
+            "value": "col-lg-3",
+            "label": "3/12"
+          },
+          {
+            "value": "col-lg-4",
+            "label": "4/12"
+          },
+          {
+            "value": "col-lg-5",
+            "label": "5/12"
+          },
+          {
+            "value": "col-lg-6",
+            "label": "6/12"
+          },
+          {
+            "value": "col-lg-7",
+            "label": "7/12"
+          },
+          {
+            "value": "col-lg-8",
+            "label": "8/12"
+          },
+          {
+            "value": "col-lg-9",
+            "label": "9/12"
+          },
+          {
+            "value": "col-lg-10",
+            "label": "10/12"
+          },
+          {
+            "value": "col-lg-12",
+            "label": "12/12"
+          }
+        ]
+      },
+      {
+        "type": "select",
+        "id": "width_list_collection_tablet",
+        "label": "Width List Collection Tablet",
+        "default": "col-md-4",
+        "options": [
+          {
+            "value": "col-md-2",
+            "label": "2/12"
+          },
+          {
+            "value": "col-md-3",
+            "label": "3/12"
+          },
+          {
+            "value": "col-md-4",
+            "label": "4/12"
+          },
+          {
+            "value": "col-md-5",
+            "label": "5/12"
+          },
+          {
+            "value": "col-md-6",
+            "label": "6/12"
+          },
+          {
+            "value": "col-md-7",
+            "label": "7/12"
+          },
+          {
+            "value": "col-md-8",
+            "label": "8/12"
+          },
+          {
+            "value": "col-md-9",
+            "label": "9/12"
+          },
+          {
+            "value": "col-md-10",
+            "label": "10/12"
+          },
+          {
+            "value": "col-md-12",
+            "label": "12/12"
+          }
+        ]
+      },
+      {
+        "type": "header",
+        "content": "Product Slider"
+      },
+      {
+        "type": "collection",
+        "id": "collection",
+        "label": "Collection"
+      },
+      {
+        "type": "select",
+        "id": "width_product",
+        "label": "Width Product (Large Desktop)",
+        "default": "col-xl-8",
+        "options": [
+          {
+            "value": "col-xl-2",
+            "label": "2/12"
+          },
+          {
+            "value": "col-xl-gc-3",
+            "label": "3/12"
+          },
+          {
+            "value": "col-xl-4",
+            "label": "4/12"
+          },
+          {
+            "value": "col-xl-5",
+            "label": "5/12"
+          },
+          {
+            "value": "col-xl-6",
+            "label": "6/12"
+          },
+          {
+            "value": "col-xl-7",
+            "label": "7/12"
+          },
+          {
+            "value": "col-xl-8",
+            "label": "8/12"
+          },
+          {
+            "value": "col-xl-gc-9",
+            "label": "9/12"
+          },
+          {
+            "value": "col-xl-10",
+            "label": "10/12"
+          },
+          {
+            "value": "col-xl-12",
+            "label": "12/12"
+          }
+        ]
+      },
+      {
+        "type": "select",
+        "id": "width_product_lg_tablet",
+        "label": "Width Product (Desktop)",
+        "default": "col-lg-8",
+        "options": [
+          {
+            "value": "col-lg-2",
+            "label": "2/12"
+          },
+          {
+            "value": "col-lg-3",
+            "label": "3/12"
+          },
+          {
+            "value": "col-lg-4",
+            "label": "4/12"
+          },
+          {
+            "value": "col-lg-5",
+            "label": "5/12"
+          },
+          {
+            "value": "col-lg-6",
+            "label": "6/12"
+          },
+          {
+            "value": "col-lg-7",
+            "label": "7/12"
+          },
+          {
+            "value": "col-lg-8",
+            "label": "8/12"
+          },
+          {
+            "value": "col-lg-9",
+            "label": "9/12"
+          },
+          {
+            "value": "col-lg-10",
+            "label": "10/12"
+          },
+          {
+            "value": "col-lg-12",
+            "label": "12/12"
+          }
+        ]
+      },
+      {
+        "type": "select",
+        "id": "width_product_tablet",
+        "label": "Width Product Tablet",
+        "default": "col-md-8",
+        "options": [
+          {
+            "value": "col-md-2",
+            "label": "2/12"
+          },
+          {
+            "value": "col-md-3",
+            "label": "3/12"
+          },
+          {
+            "value": "col-md-4",
+            "label": "4/12"
+          },
+          {
+            "value": "col-md-5",
+            "label": "5/12"
+          },
+          {
+            "value": "col-md-6",
+            "label": "6/12"
+          },
+          {
+            "value": "col-md-7",
+            "label": "7/12"
+          },
+          {
+            "value": "col-md-8",
+            "label": "8/12"
+          },
+          {
+            "value": "col-md-9",
+            "label": "9/12"
+          },
+          {
+            "value": "col-md-10",
+            "label": "10/12"
+          },
+          {
+            "value": "col-md-12",
+            "label": "12/12"
+          }
+        ]
+      },
+      {
+        "type": "range",
+        "id": "limit",
+        "min": 4,
+        "max": 30,
+        "step": 1,
+        "label": "Limit",
+        "default": 8,
+        "info": "Select number limit products"
+      },
+      {
+        "type": "select",
+        "id": "grid_number",
+        "label": "Products per row (grid only)",
+        "default": "4",
+        "options": [
+          {
+            "value": "2",
+            "label": "2"
+          },
+          {
+            "value": "3",
+            "label": "3"
+          },
+          {
+            "value": "4",
+            "label": "4"
+          },
+          {
+            "value": "5",
+            "label": "5"
+          },
+          {
+            "value": "6",
+            "label": "6"
+          }
+        ]
+      },
+      {
+        "type": "range",
+        "id": "grid_number_lg_tablet",
+        "min": 1,
+        "max": 6,
+        "step": 1,
+        "label": "Products per row (Desktop)",
+        "default": 3
+      },
+      {
+        "type": "range",
+        "id": "items_tablet",
+        "min": 1,
+        "max": 6,
+        "step": 1,
+        "label": "Items Tablet",
+        "default": 3,
+        "info": "Select number Items Tablet for slider"
+      },
+      {
+        "type": "range",
+        "id": "items_mobile",
+        "min": 1,
+        "max": 6,
+        "step": 1,
+        "label": "Items Mobile",
+        "default": 2,
+        "info": "Select number Items Mobile for slider"
+      },
+      {
+        "type": "range",
+        "id": "items_mobiles",
+        "min": 1,
+        "max": 6,
+        "step": 1,
+        "label": "Items Mobile 480",
+        "default": 2,
+        "info": "Select number Items Mobile 480 for slider"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_dots",
+        "label": "Show dots"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_nav",
+        "label": "Show nav"
+      },
+      {
+        "type": "checkbox",
+        "id": "has_fullwidth",
+        "label": "Full width",
+        "default": false
+      },
+      {
+        "type": "text",
+        "id": "distance_top",
+        "label": "Top Distance Section",
+        "default": "30px"
+      },
+      {
+        "type": "text",
+        "id": "distance_bottom",
+        "label": "Bottom Distance Section",
+        "default": "30px"
+      }
+    ],
+    "presets": [
+      {
+        "name": "Group Collection Product",
+        "category": "Collection"
+      }
+    ]
+  }
+{% endschema %}

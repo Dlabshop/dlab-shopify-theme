@@ -1,0 +1,1335 @@
+<div class="distance" style="padding-top: {{ section.settings.distance_top }}; padding-bottom: {{ section.settings.distance_bottom }}">
+  {% if section.settings.has_fullwidth == false %}
+  <div class="container">
+  {% endif %}
+  <div data-section-id="{{ section.id }}" data-section-type="slideshow-section" class="slideshow {{ section.settings.type_dots }}">
+    {% if section.blocks.size > 0 %}
+      <div class="main-slider" data-autoplay="{{ section.settings.autoplay }}" data-speed="{{ section.settings.autoplay_speed }}" data-arrows="{{ section.settings.arrows }}" data-dots="{{ section.settings.dots }}">
+        {% for block in section.blocks %}
+          {% if block.settings.image != blank %}
+           <div class="item image">
+              <figure>
+                <div class="slide-image slide-media" style="background-image:url('{{ block.settings.image | img_url: '1920x' }}');">
+                  <img class="image-entity lazyload" data-src="{{ block.settings.image | img_url: '2048x' }}" alt="slidershow" />
+                </div>
+                <figcaption class="caption">
+                  <div class="content-caption" style="top: {{ block.settings.top_position }}%;transform: translateY(-{{ block.settings.top_position }}%);text-align: {{ block.settings.text_align }};">
+                    <div class="container position-relative">
+                      <div class="content position-absolute content-{{ forloop.index }}">
+                        {% unless block.settings.img_caption == blank %}
+                          <div class="caption-animate img_caption" data-animate="{{ block.settings.cap_img }} animated">
+                            <img src="{{ block.settings.img_caption | img_url: '800x' }}" alt="">
+                          </div>
+                        {% endunless %}
+
+                        {% if block.settings.type_caption == 'type_1' %}
+                          {% unless block.settings.caption_1 == blank %}
+                            <div class="caption-animate caption-1 {{ block.settings.fz_cap1 }}" data-animate="{{ block.settings.cap_animate_1 }} animated" style="color: {{ block.settings.color_cap1 }};">{{ block.settings.caption_1 | nofilter }}</div>
+                          {% endunless %}
+                          {% unless block.settings.caption_2 == blank %}
+                            <div class="caption-animate caption-2 {{ block.settings.fz_cap2 }}" data-animate="{{ block.settings.cap_animate_2 }} animated" style="color: {{ block.settings.color_cap2 }};">{{ block.settings.caption_2 | nofilter }}</div>
+                          {% endunless %}
+                          {% unless block.settings.caption_3 == blank %}
+                            <div class="caption-animate caption-3 {{ block.settings.fz_cap3 }}" data-animate="{{ block.settings.cap_animate_3 }} animated" style="color: {{ block.settings.color_cap3 }};">{{ block.settings.caption_3 | nofilter }}</div>
+                          {% endunless %}
+
+                        {% elsif block.settings.type_caption == 'type_2' %}
+                          {% unless block.settings.caption_3 == blank %}
+                            <div class="caption-animate caption-3 {{ block.settings.fz_cap3 }}" data-animate="{{ block.settings.cap_animate_3 }} animated" style="color: {{ block.settings.color_cap3 }};">{{ block.settings.caption_3 | nofilter }}</div>
+                          {% endunless %}
+                          {% unless block.settings.caption_2 == blank %}
+                            <div class="caption-animate caption-2 {{ block.settings.fz_cap2 }}" data-animate="{{ block.settings.cap_animate_2 }} animated" style="color: {{ block.settings.color_cap2 }};">{{ block.settings.caption_2 | nofilter }}</div>
+                          {% endunless %}
+                          {% unless block.settings.caption_1 == blank %}
+                            <div class="caption-animate caption-1 {{ block.settings.fz_cap1 }}" data-animate="{{ block.settings.cap_animate_1 }} animated" style="color: {{ block.settings.color_cap1 }};">{{ block.settings.caption_1 | nofilter }}</div>
+                          {% endunless %}
+
+                        {% elsif block.settings.type_caption == 'type_3' %}
+                          {% unless block.settings.caption_2 == blank %}
+                            <div class="caption-animate caption-2 {{ block.settings.fz_cap2 }}" data-animate="{{ block.settings.cap_animate_2 }} animated" style="color: {{ block.settings.color_cap2 }};">{{ block.settings.caption_2 | nofilter }}</div>
+                          {% endunless %}
+                          {% unless block.settings.caption_1 == blank %}
+                            <div class="caption-animate caption-1 {{ block.settings.fz_cap1 }}" data-animate="{{ block.settings.cap_animate_1 }} animated" style="color: {{ block.settings.color_cap1 }};">{{ block.settings.caption_1 | nofilter }}</div>
+                          {% endunless %}
+                          {% unless block.settings.caption_3 == blank %}
+                            <div class="caption-animate caption-3 {{ block.settings.fz_cap3 }}" data-animate="{{ block.settings.cap_animate_3 }} animated" style="color: {{ block.settings.color_cap3 }};">{{ block.settings.caption_3 | nofilter }}</div>
+                          {% endunless %}
+
+                        {% else %}
+                          {% unless block.settings.caption_3 == blank %}
+                            <div class="caption-animate caption-3 {{ block.settings.fz_cap3 }}" data-animate="{{ block.settings.cap_animate_3 }} animated" style="color: {{ block.settings.color_cap3 }};">{{ block.settings.caption_3 | nofilter }}</div>
+                          {% endunless %}
+                          {% unless block.settings.caption_1 == blank %}
+                            <div class="caption-animate caption-1 {{ block.settings.fz_cap1 }}" data-animate="{{ block.settings.cap_animate_1 }} animated" style="color: {{ block.settings.color_cap1 }};">{{ block.settings.caption_1 | nofilter }}</div>
+                          {% endunless %}
+                          {% unless block.settings.caption_2 == blank %}
+                            <div class="caption-animate caption-2 {{ block.settings.fz_cap2 }}" data-animate="{{ block.settings.cap_animate_2 }} animated" style="color: {{ block.settings.color_cap2 }};">{{ block.settings.caption_2 | nofilter }}</div>
+                          {% endunless %}
+                        {% endif %}
+                        
+                        {% unless block.settings.cap_link == blank %}
+                        <div class="caption-animate cap_link {{ block.settings.style_button }}" data-animate="{{ block.settings.cap_link_animate }} animated">
+                          <a href="{{ block.settings.cap_link }}" style="color: #ffffff; background-color: #000000; border-color: #000000;">
+                            {% if block.settings.style_button == 'style_1' %}
+                              <i class="icon_link_slide"></i>
+                            {% endif %}
+                            {{ block.settings.title_link }}
+                          </a>
+                        </div>
+                        {% endunless %}
+                      </div>
+                    </div>
+                  </div>
+                </figcaption>
+              </figure>
+            </div> 
+          {% endif %}
+          {% if block.settings.image == blank %}
+          <div class="item image blank">
+              <figure>
+                {% capture current %}{% cycle 1, 2 %}{% endcapture %}
+                {{ 'lifestyle-' | append: current | placeholder_svg_tag: 'placeholder-svg' }}
+                <figcaption class="caption-animate caption {% if block.settings.type_caption == '1' %}type_1{else}type_2{% endif %}">
+                    {% unless block.settings.caption_1 == blank %}
+                      <div class="caption-animate caption-1">{{ block.settings.caption_1 }}</div>
+                    {% endunless %}
+                    {% unless block.settings.caption_2 == blank %}
+                      <div class="caption-animate caption-2" data-animate="bounceInRight">{{ block.settings.caption_2 | nofilter }}</div>
+                    {% endunless %}
+                    {% unless block.settings.caption_3 == blank %}
+                      <div class="caption-animate caption-3" data-animate="bounceInLeft">{{ block.settings.caption_3 | nofilter }}</div>
+                    {% endunless %}
+                </figcaption>
+              </figure>
+            </div>  
+          {% endif %}
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    {% if section.blocks.size == 0 %}
+      <div class="placeholder-noblocks">
+        {{ 'homepage.onboarding.no_content' | t }}
+      </div>
+    {% endif %}
+  </div>
+  {% if section.settings.has_fullwidth == false %}
+    </div>
+  {% endif %}
+</div>
+
+{% schema %}
+  {
+    "name": "Vinova Slideshow",
+    "class": "index-section section-slideshow wow fadeIn animated",
+    "max_blocks": 4,
+    "settings": [
+      {
+        "type": "text",
+        "id": "height_slideshow",
+        "label": "Height Slideshow (in unit px)",
+        "default": "700"
+      },
+      {
+        "type": "text",
+        "id": "height_slideshow_desktop",
+        "label": "Height Slideshow Desktop (in unit px)",
+        "default": "700"
+      },
+      {
+        "type": "text",
+        "id": "height_slideshow_tablet",
+        "label": "Height Slideshow Tablet (in unit px)",
+        "default": "700"
+      },
+      {
+        "type": "text",
+        "id": "height_slideshow_mobile",
+        "label": "Height Slideshow Mobile (in unit px)",
+        "default": "300"
+      },
+      {
+        "type": "text",
+        "id": "height_slideshow_mobile_475",
+        "label": "Height Slideshow Mobile 475 (in unit px)",
+        "default": "170"
+      },
+      {
+        "type": "checkbox",
+        "id": "autoplay",
+        "label": "Auto-rotate slides",
+        "default": true
+      },
+      {
+        "type": "select",
+        "id": "autoplay_speed",
+        "label": "Change slides every",
+        "options": [
+          { "value": "4000", "label": "4 seconds" },
+          { "value": "5000", "label": "5 seconds" },
+          { "value": "6000", "label": "6 seconds" },
+          { "value": "7000", "label": "7 seconds" },
+          { "value": "8000", "label": "8 seconds" },
+          { "value": "9000", "label": "9 seconds" },
+          { "value": "10000", "label": "10 seconds" }
+        ],
+        "default": "4000"
+      },
+      {
+         "type": "checkbox",
+         "id": "arrows",
+         "label": "Enable arrows",
+         "default": false
+      },
+      {
+         "type": "checkbox",
+         "id": "dots",
+         "label": "Enable dots",
+         "default": true
+      },
+      {
+        "type": "select",
+        "id": "type_dots",
+        "label": "Type Dots",
+        "options": [
+          {
+            "value": "style_1",
+            "label": "1"
+          },
+          {
+            "value": "style_2",
+            "label": "2"
+          },
+          {
+            "value": "style_3",
+            "label": "3"
+          }
+        ]
+      },
+      {
+        "type": "checkbox",
+        "id": "has_fullwidth",
+        "label": "Full Width",
+        "default":   false
+      },
+      {
+        "type": "text",
+        "id": "distance_top",
+        "label": "Top Distance Section",
+        "default": "30px"
+      },
+      {
+        "type": "text",
+        "id": "distance_bottom",
+        "label": "Bottom Distance Section",
+        "default": "30px"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "image",
+        "name": "Image slide",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image Slideshow"
+          },
+          {
+            "type": "header",
+            "content": "Caption"
+          },
+          {
+            "type": "select",
+            "id": "type_caption",
+            "label": "Type Caption",
+            "options": [
+              {
+                "value": "type_1",
+                "label": "1"
+              },
+              {
+                "value": "type_2",
+                "label": "2"
+              },
+              {
+                "value": "type_3",
+                "label": "3"
+              },
+              {
+                "value": "type_4",
+                "label": "4"
+              }
+            ]
+          },
+          {
+            "type": "header",
+            "content": "Image Caption"
+          },
+          {
+            "type": "image_picker",
+            "id": "img_caption",
+            "label": "Image Caption"
+          },
+          {
+            "type": "select",
+            "id": "cap_img",
+            "label": "Image Animate",
+            "options": [
+              {
+                "value": "bounce",
+                "label": "bounce"
+              },
+              {
+                "value": "swing",
+                "label": "swing"
+              },
+              {
+                "value": "wobble",
+                "label": "wobble"
+              },
+              {
+                "value": "bounceIn",
+                "label": "bounceIn"
+              },
+              {
+                "value": "bounceInDown",
+                "label": "bounceInDown"
+              },
+              {
+                "value": "bounceInLeft",
+                "label": "bounceInLeft"
+              },
+              {
+                "value": "bounceInRight",
+                "label": "founceInRight"
+              },
+              {
+                "value": "bounceInUp",
+                "label": "founceInUp"
+              },
+              {
+                "value": "fadeIn",
+                "label": "fadeIn"
+              },
+              {
+                "value": "fadeInDown",
+                "label": "fadeInDown"
+              },
+              {
+                "value": "fadeInDownBig",
+                "label": "fadeInDownBig"
+              },
+              {
+                "value": "fadeInLeft",
+                "label": "fadeInLeft"
+              },
+              {
+                "value": "fadeInLeftBig",
+                "label": "fadeInLeftBig"
+              },
+              {
+                "value": "fadeInRight",
+                "label": "fadeInRight"
+              },
+              {
+                "value": "fadeInRightBig",
+                "label": "fadeInRightBig"
+              },
+              {
+                "value": "fadeInUp",
+                "label": "fadeInUp"
+              },
+              {
+                "value": "fadeInUpBig",
+                "label": "fadeInUpBig"
+              },
+              {
+                "value": "flipInX",
+                "label": "flipInX"
+              },
+              {
+                "value": "lightSpeedIn",
+                "label": "lightSpeedIn"
+              },
+              {
+                "value": "slideInUp",
+                "label": "slideInUp"
+              },
+              {
+                "value": "slideInDown",
+                "label": "slideInDown"
+              },
+              {
+                "value": "slideInLeft",
+                "label": "slideInLeft"
+              },
+              {
+                "value": "slideInRight",
+                "label": "slideInRight"
+              },
+              {
+                "value": "zoomIn",
+                "label": "zoomIn"
+              },
+              {
+                "value": "zoomInDown",
+                "label": "zoomInDown"
+              },
+              {
+                "value": "zoomInLeft",
+                "label": "zoomInLeft"
+              },
+              {
+                "value": "zoomInRight",
+                "label": "zoomInRight"
+              },
+              {
+                "value": "zoomInUp",
+                "label": "zoomInUp"
+              },
+              {
+                "value": "jackInTheBox",
+                "label": "jackInTheBox"
+              },
+              {
+                "value": "rollIn",
+                "label": "rollIn"
+              }
+            ]
+          },
+          {
+            "type": "header",
+            "content": "Caption 1"
+          },
+          {
+            "type": "text",
+            "id": "caption_1",
+            "label": "Caption 1"
+          },
+          {
+             "type": "color",
+             "id": "color_cap1",
+             "label": "Color",
+             "default": "#000"
+          },
+          {
+            "type": "select",
+            "id": "fz_cap1",
+            "label": "Font Size",
+            "options": [
+              {
+                "value": "s",
+                "label": "s"
+              },
+              {
+                "value": "m",
+                "label": "m"
+              },
+              {
+                "value": "l",
+                "label": "l"
+              },
+              {
+                "value": "xl",
+                "label": "xl"
+              }
+            ]
+          },
+          {
+            "type": "select",
+            "id": "cap_animate_1",
+            "label": "Text Animate",
+            "options": [
+              {
+                "value": "bounce",
+                "label": "bounce"
+              },
+              {
+                "value": "swing",
+                "label": "swing"
+              },
+              {
+                "value": "wobble",
+                "label": "wobble"
+              },
+              {
+                "value": "bounceIn",
+                "label": "bounceIn"
+              },
+              {
+                "value": "bounceInDown",
+                "label": "bounceInDown"
+              },
+              {
+                "value": "bounceInLeft",
+                "label": "bounceInLeft"
+              },
+              {
+                "value": "bounceInRight",
+                "label": "founceInRight"
+              },
+              {
+                "value": "bounceInUp",
+                "label": "founceInUp"
+              },
+              {
+                "value": "fadeIn",
+                "label": "fadeIn"
+              },
+              {
+                "value": "fadeInDown",
+                "label": "fadeInDown"
+              },
+              {
+                "value": "fadeInDownBig",
+                "label": "fadeInDownBig"
+              },
+              {
+                "value": "fadeInLeft",
+                "label": "fadeInLeft"
+              },
+              {
+                "value": "fadeInLeftBig",
+                "label": "fadeInLeftBig"
+              },
+              {
+                "value": "fadeInRight",
+                "label": "fadeInRight"
+              },
+              {
+                "value": "fadeInRightBig",
+                "label": "fadeInRightBig"
+              },
+              {
+                "value": "fadeInUp",
+                "label": "fadeInUp"
+              },
+              {
+                "value": "fadeInUpBig",
+                "label": "fadeInUpBig"
+              },
+              {
+                "value": "flipInX",
+                "label": "flipInX"
+              },
+              {
+                "value": "lightSpeedIn",
+                "label": "lightSpeedIn"
+              },
+              {
+                "value": "slideInUp",
+                "label": "slideInUp"
+              },
+              {
+                "value": "slideInDown",
+                "label": "slideInDown"
+              },
+              {
+                "value": "slideInLeft",
+                "label": "slideInLeft"
+              },
+              {
+                "value": "slideInRight",
+                "label": "slideInRight"
+              },
+              {
+                "value": "zoomIn",
+                "label": "zoomIn"
+              },
+              {
+                "value": "zoomInDown",
+                "label": "zoomInDown"
+              },
+              {
+                "value": "zoomInLeft",
+                "label": "zoomInLeft"
+              },
+              {
+                "value": "zoomInRight",
+                "label": "zoomInRight"
+              },
+              {
+                "value": "zoomInUp",
+                "label": "zoomInUp"
+              },
+              {
+                "value": "jackInTheBox",
+                "label": "jackInTheBox"
+              },
+              {
+                "value": "rollIn",
+                "label": "rollIn"
+              }
+            ]
+          },
+          {
+            "type": "header",
+            "content": "Caption 2"
+          },
+          {
+            "type": "text",
+            "id": "caption_2",
+            "label": "Caption 2"
+          },
+          {
+             "type": "color",
+             "id": "color_cap2",
+             "label": "Color",
+             "default": "#000"
+          },
+          {
+            "type": "select",
+            "id": "fz_cap2",
+            "label": "Font Size",
+            "options": [
+              {
+                "value": "s",
+                "label": "s"
+              },
+              {
+                "value": "m",
+                "label": "m"
+              },
+              {
+                "value": "l",
+                "label": "l"
+              }
+            ]
+          },
+          {
+            "type": "select",
+            "id": "cap_animate_2",
+            "label": "Text Animate",
+            "options": [
+              {
+                "value": "bounce",
+                "label": "bounce"
+              },
+              {
+                "value": "swing",
+                "label": "swing"
+              },
+              {
+                "value": "wobble",
+                "label": "wobble"
+              },
+              {
+                "value": "bounceIn",
+                "label": "bounceIn"
+              },
+              {
+                "value": "bounceInDown",
+                "label": "bounceInDown"
+              },
+              {
+                "value": "bounceInLeft",
+                "label": "bounceInLeft"
+              },
+              {
+                "value": "bounceInRight",
+                "label": "founceInRight"
+              },
+              {
+                "value": "bounceInUp",
+                "label": "founceInUp"
+              },
+              {
+                "value": "fadeIn",
+                "label": "fadeIn"
+              },
+              {
+                "value": "fadeInDown",
+                "label": "fadeInDown"
+              },
+              {
+                "value": "fadeInDownBig",
+                "label": "fadeInDownBig"
+              },
+              {
+                "value": "fadeInLeft",
+                "label": "fadeInLeft"
+              },
+              {
+                "value": "fadeInLeftBig",
+                "label": "fadeInLeftBig"
+              },
+              {
+                "value": "fadeInRight",
+                "label": "fadeInRight"
+              },
+              {
+                "value": "fadeInRightBig",
+                "label": "fadeInRightBig"
+              },
+              {
+                "value": "fadeInUp",
+                "label": "fadeInUp"
+              },
+              {
+                "value": "fadeInUpBig",
+                "label": "fadeInUpBig"
+              },
+              {
+                "value": "flipInX",
+                "label": "flipInX"
+              },
+              {
+                "value": "lightSpeedIn",
+                "label": "lightSpeedIn"
+              },
+              {
+                "value": "slideInUp",
+                "label": "slideInUp"
+              },
+              {
+                "value": "slideInDown",
+                "label": "slideInDown"
+              },
+              {
+                "value": "slideInLeft",
+                "label": "slideInLeft"
+              },
+              {
+                "value": "slideInRight",
+                "label": "slideInRight"
+              },
+              {
+                "value": "zoomIn",
+                "label": "zoomIn"
+              },
+              {
+                "value": "zoomInDown",
+                "label": "zoomInDown"
+              },
+              {
+                "value": "zoomInLeft",
+                "label": "zoomInLeft"
+              },
+              {
+                "value": "zoomInRight",
+                "label": "zoomInRight"
+              },
+              {
+                "value": "zoomInUp",
+                "label": "zoomInUp"
+              },
+              {
+                "value": "jackInTheBox",
+                "label": "jackInTheBox"
+              },
+              {
+                "value": "rollIn",
+                "label": "rollIn"
+              }
+            ]
+          },
+          {
+            "type": "header",
+            "content": "Caption 3"
+          },
+          {
+            "type": "textarea",
+            "id": "caption_3",
+            "label": "Caption 3"
+          },
+          {
+             "type": "color",
+             "id": "color_cap3",
+             "label": "Color",
+             "default": "#000000"
+          },
+          {
+            "type": "select",
+            "id": "fz_cap3",
+            "label": "Font Size",
+            "options": [
+              {
+                "value": "s",
+                "label": "s"
+              },
+              {
+                "value": "m",
+                "label": "m"
+              },
+              {
+                "value": "l",
+                "label": "l"
+              }
+            ]
+          },
+          {
+            "type": "select",
+            "id": "cap_animate_3",
+            "label": "Text Animate",
+            "options": [
+              {
+                "value": "bounce",
+                "label": "bounce"
+              },
+              {
+                "value": "swing",
+                "label": "swing"
+              },
+              {
+                "value": "wobble",
+                "label": "wobble"
+              },
+              {
+                "value": "bounceIn",
+                "label": "bounceIn"
+              },
+              {
+                "value": "bounceInDown",
+                "label": "bounceInDown"
+              },
+              {
+                "value": "bounceInLeft",
+                "label": "bounceInLeft"
+              },
+              {
+                "value": "bounceInRight",
+                "label": "founceInRight"
+              },
+              {
+                "value": "bounceInUp",
+                "label": "founceInUp"
+              },
+              {
+                "value": "fadeIn",
+                "label": "fadeIn"
+              },
+              {
+                "value": "fadeInDown",
+                "label": "fadeInDown"
+              },
+              {
+                "value": "fadeInDownBig",
+                "label": "fadeInDownBig"
+              },
+              {
+                "value": "fadeInLeft",
+                "label": "fadeInLeft"
+              },
+              {
+                "value": "fadeInLeftBig",
+                "label": "fadeInLeftBig"
+              },
+              {
+                "value": "fadeInRight",
+                "label": "fadeInRight"
+              },
+              {
+                "value": "fadeInRightBig",
+                "label": "fadeInRightBig"
+              },
+              {
+                "value": "fadeInUp",
+                "label": "fadeInUp"
+              },
+              {
+                "value": "fadeInUpBig",
+                "label": "fadeInUpBig"
+              },
+              {
+                "value": "flipInX",
+                "label": "flipInX"
+              },
+              {
+                "value": "lightSpeedIn",
+                "label": "lightSpeedIn"
+              },
+              {
+                "value": "slideInUp",
+                "label": "slideInUp"
+              },
+              {
+                "value": "slideInDown",
+                "label": "slideInDown"
+              },
+              {
+                "value": "slideInLeft",
+                "label": "slideInLeft"
+              },
+              {
+                "value": "slideInRight",
+                "label": "slideInRight"
+              },
+              {
+                "value": "zoomIn",
+                "label": "zoomIn"
+              },
+              {
+                "value": "zoomInDown",
+                "label": "zoomInDown"
+              },
+              {
+                "value": "zoomInLeft",
+                "label": "zoomInLeft"
+              },
+              {
+                "value": "zoomInRight",
+                "label": "zoomInRight"
+              },
+              {
+                "value": "zoomInUp",
+                "label": "zoomInUp"
+              },
+              {
+                "value": "jackInTheBox",
+                "label": "jackInTheBox"
+              },
+              {
+                "value": "rollIn",
+                "label": "rollIn"
+              }
+            ]
+          },
+          {
+            "type": "header",
+            "content": "Button"
+          },
+          {
+            "type": "text",
+            "id": "title_link",
+            "label": "Text button"
+          },
+          {
+             "type": "color",
+             "id": "color_cap_link",
+             "label": "Button text color",
+             "default": "#ffffff"
+          },
+          {
+            "type": "url",
+            "id": "cap_link",
+            "label": "Link button"
+          },
+          {
+            "type": "select",
+            "id": "style_button",
+            "label": "Style Button",
+            "options": [
+              {
+                "value": "style_1",
+                "label": "1"
+              },
+              {
+                "value": "style_2",
+                "label": "2"
+              }
+            ]
+          },
+          {
+            "type": "select",
+            "id": "cap_link_animate",
+            "label": "Button Animate",
+            "options": [
+              {
+                "value": "bounce",
+                "label": "bounce"
+              },
+              {
+                "value": "swing",
+                "label": "swing"
+              },
+              {
+                "value": "wobble",
+                "label": "wobble"
+              },
+              {
+                "value": "bounceIn",
+                "label": "bounceIn"
+              },
+              {
+                "value": "bounceInDown",
+                "label": "bounceInDown"
+              },
+              {
+                "value": "bounceInLeft",
+                "label": "bounceInLeft"
+              },
+              {
+                "value": "bounceInRight",
+                "label": "founceInRight"
+              },
+              {
+                "value": "bounceInUp",
+                "label": "founceInUp"
+              },
+              {
+                "value": "fadeIn",
+                "label": "fadeIn"
+              },
+              {
+                "value": "fadeInDown",
+                "label": "fadeInDown"
+              },
+              {
+                "value": "fadeInDownBig",
+                "label": "fadeInDownBig"
+              },
+              {
+                "value": "fadeInLeft",
+                "label": "fadeInLeft"
+              },
+              {
+                "value": "fadeInLeftBig",
+                "label": "fadeInLeftBig"
+              },
+              {
+                "value": "fadeInRight",
+                "label": "fadeInRight"
+              },
+              {
+                "value": "fadeInRightBig",
+                "label": "fadeInRightBig"
+              },
+              {
+                "value": "fadeInUp",
+                "label": "fadeInUp"
+              },
+              {
+                "value": "fadeInUpBig",
+                "label": "fadeInUpBig"
+              },
+              {
+                "value": "flipInX",
+                "label": "flipInX"
+              },
+              {
+                "value": "lightSpeedIn",
+                "label": "lightSpeedIn"
+              },
+              {
+                "value": "slideInUp",
+                "label": "slideInUp"
+              },
+              {
+                "value": "slideInDown",
+                "label": "slideInDown"
+              },
+              {
+                "value": "slideInLeft",
+                "label": "slideInLeft"
+              },
+              {
+                "value": "slideInRight",
+                "label": "slideInRight"
+              },
+              {
+                "value": "zoomIn",
+                "label": "zoomIn"
+              },
+              {
+                "value": "zoomInDown",
+                "label": "zoomInDown"
+              },
+              {
+                "value": "zoomInLeft",
+                "label": "zoomInLeft"
+              },
+              {
+                "value": "zoomInRight",
+                "label": "zoomInRight"
+              },
+              {
+                "value": "zoomInUp",
+                "label": "zoomInUp"
+              },
+              {
+                "value": "jackInTheBox",
+                "label": "jackInTheBox"
+              },
+              {
+                "value": "rollIn",
+                "label": "rollIn"
+              }
+            ]
+          },
+          {
+            "type": "header",
+            "content": "Caption Position"
+          },
+          {
+            "type": "select",
+            "id": "text_align",
+            "label": "Text align",
+            "options": [
+              {
+                "value": "left",
+                "label": "Left"
+              },
+              {
+                "value": "center",
+                "label": "Center"
+              },
+              {
+                "value": "right",
+                "label": "Right"
+              }
+            ]
+          },
+          {
+            "type": "text",
+            "id": "width_position",
+            "label": "Width (%)",
+            "default": "50"
+          },
+          {
+            "type": "text",
+            "id": "width_position_desktop",
+            "label": "Width Desktop (%)",
+            "default": "20"
+          },
+          {
+            "type": "text",
+            "id": "width_position_tablet",
+            "label": "Width Tablet (%)",
+            "default": "20"
+          },
+          {
+            "type": "text",
+            "id": "width_position_mobile",
+            "label": "Width Mobile (%)",
+            "default": "0"
+          },
+          {
+            "type": "text",
+            "id": "width_position_mobile_575",
+            "label": "Width Mobile 575 (%)",
+            "default": "100"
+          },
+          {
+            "type": "text",
+            "id": "left_position",
+            "label": "Left (%)",
+            "default": "50"
+          },
+          {
+            "type": "text",
+            "id": "left_position_desktop",
+            "label": "Left Desktop (%)",
+            "default": "20"
+          },
+          {
+            "type": "text",
+            "id": "left_position_tablet",
+            "label": "Left Tablet (%)",
+            "default": "20"
+          },
+          {
+            "type": "text",
+            "id": "left_position_mobile",
+            "label": "Left Mobile (%)",
+            "default": "0"
+          },
+          {
+            "type": "text",
+            "id": "left_position_mobile_575",
+            "label": "Left Mobile 575 (%)",
+            "default": "0"
+          },
+          {
+            "type": "text",
+            "id": "top_position",
+            "label": "Top (%)",
+            "default": "50"
+          },
+          {
+            "type": "url",
+            "id": "slider_link",
+            "label": "Slide link"
+          }
+        ]
+      },
+      {
+        "type": "video",
+        "name": "Video slide",
+        "settings": [
+          {
+            "type": "video_url",
+            "id": "video_url",
+            "label": "Video link",
+            "accept": ["youtube", "vimeo"],
+            "default": "https:\/\/www.youtube.com\/watch?v=_9VUPq3SxOc"
+          },
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Heading",
+            "default": "Video slide"
+          },
+          {
+            "type": "text",
+            "id": "subheading",
+            "label": "Subheading",
+            "default": "Tell your brand's story through video and images"
+          }
+        ]
+      }
+    ],
+    "presets": [{
+      "name": "Vinova Slideshow",
+      "category": "Image",
+      "settings": {
+        "autoplay": true,
+        "autoplay_speed": "5000",
+        "height_slideshow": "700"
+      },
+      "blocks": [
+        {
+          "type": "image"
+        },
+        {
+          "type": "image"
+        },
+        {
+          "type": "image"
+        }
+      ]
+    }]
+  }
+{% endschema %}
+
+<style>
+  @media (min-width: 1200px) {
+    .slideshow .main-slider {
+      height: {{ section.settings.height_slideshow }}px; 
+    }
+    .slideshow .slick-slide {
+      height: {{ section.settings.height_slideshow }}px;
+    }
+  }
+  @media (max-width: 1199px) {
+    .slideshow .main-slider {
+      height: {{ section.settings.height_slideshow_desktop }}px; 
+    }
+    .slideshow .slick-slide {
+      height: {{ section.settings.height_slideshow_desktop }}px;
+    }
+  }
+  @media (max-width: 991px) {
+    .slideshow .main-slider {
+      height: {{ section.settings.height_slideshow_tablet }}px; 
+    }
+    .slideshow .slick-slide {
+      height: {{ section.settings.height_slideshow_tablet }}px;
+    }
+  }
+  @media (max-width: 767px) {
+    .slideshow .main-slider {
+      height: {{ section.settings.height_slideshow_mobile }}px; 
+    }
+    .slideshow .slick-slide {
+      height: {{ section.settings.height_slideshow_mobile }}px;
+    }
+  }
+  @media (max-width: 475px) {
+    .slideshow .main-slider {
+      height: {{ section.settings.height_slideshow_mobile_475 }}px; 
+    }
+    .slideshow .slick-slide {
+      height: {{ section.settings.height_slideshow_mobile_475 }}px;
+    }
+  }
+
+  {% for block in section.blocks %}
+    .content-{{ forloop.index }} {
+      left: {{ block.settings.left_position }}%;
+      width: {{ block.settings.width_position }}%;
+      transform: translateX(-{{ block.settings.left_position }}%);
+    }
+    @media(max-width: 1199px) {
+      .content-{{ forloop.index }} {
+        left: {{ block.settings.left_position_desktop }}%;
+        width: {{ block.settings.width_position_desktop }}%;
+        transform: translateX(-{{ block.settings.left_position_desktop }}%);
+      }
+    }
+    @media(max-width: 991px) {
+      .content-{{ forloop.index }} {
+        left: {{ block.settings.left_position_tablet }}%;
+        width: {{ block.settings.width_position_tablet }}%;
+        transform: translateX(-{{ block.settings.left_position_tablet }}%);
+      }
+    }
+    @media(max-width: 767px) {
+      .content-{{ forloop.index }} {
+        left: {{ block.settings.left_position_mobile }}%;
+        width: {{ block.settings.width_position_mobile }}%;
+        transform: translateX(-{{ block.settings.left_position_mobile }}%);
+      }
+    }
+    @media(max-width: 575px) {
+      .content-{{ forloop.index }} {
+        left: {{ block.settings.left_position_mobile_575 }}%;
+        width: {{ block.settings.width_position_mobile_575 }}%;
+        transform: translateX(-{{ block.settings.left_position_mobile_575 }}%);
+      }
+    }
+  {% endfor %}
+
+
+  /* =========================================================
+     PULSANTE SLIDESHOW — SFONDO NERO E TESTO BIANCO
+     Inserito per sovrascrivere gli stili rossi del tema.
+     ========================================================= */
+
+  #shopify-section-{{ section.id }} .cap_link,
+  #shopify-section-{{ section.id }} .cap_link.style_1,
+  #shopify-section-{{ section.id }} .cap_link.style_2,
+  #shopify-section-{{ section.id }} .cap_link a {
+    background: #000000 !important;
+    background-color: #000000 !important;
+    background-image: none !important;
+    border-color: #000000 !important;
+    color: #ffffff !important;
+  }
+
+  #shopify-section-{{ section.id }} .cap_link a {
+    text-decoration: none;
+  }
+
+  #shopify-section-{{ section.id }} .cap_link::before,
+  #shopify-section-{{ section.id }} .cap_link::after,
+  #shopify-section-{{ section.id }} .cap_link a::before,
+  #shopify-section-{{ section.id }} .cap_link a::after {
+    background: #000000 !important;
+    background-color: #000000 !important;
+    background-image: none !important;
+    border-color: #000000 !important;
+  }
+
+  #shopify-section-{{ section.id }} .cap_link .icon_link_slide,
+  #shopify-section-{{ section.id }} .cap_link .icon_link_slide::before,
+  #shopify-section-{{ section.id }} .cap_link .icon_link_slide::after {
+    color: #ffffff !important;
+    border-color: #ffffff !important;
+  }
+
+  #shopify-section-{{ section.id }} .cap_link:hover,
+  #shopify-section-{{ section.id }} .cap_link:focus,
+  #shopify-section-{{ section.id }} .cap_link:hover a,
+  #shopify-section-{{ section.id }} .cap_link:focus a {
+    background: #222222 !important;
+    background-color: #222222 !important;
+    background-image: none !important;
+    border-color: #222222 !important;
+    color: #ffffff !important;
+  }
+
+  #shopify-section-{{ section.id }} .cap_link:hover::before,
+  #shopify-section-{{ section.id }} .cap_link:hover::after,
+  #shopify-section-{{ section.id }} .cap_link:hover a::before,
+  #shopify-section-{{ section.id }} .cap_link:hover a::after,
+  #shopify-section-{{ section.id }} .cap_link:focus::before,
+  #shopify-section-{{ section.id }} .cap_link:focus::after,
+  #shopify-section-{{ section.id }} .cap_link:focus a::before,
+  #shopify-section-{{ section.id }} .cap_link:focus a::after {
+    background: #222222 !important;
+    background-color: #222222 !important;
+    border-color: #222222 !important;
+  }
+
+</style>

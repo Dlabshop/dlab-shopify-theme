@@ -1,0 +1,200 @@
+<div class="distance" style="padding-top: {{ section.settings.distance_top }};padding-bottom: {{ section.settings.distance_bottom }}" data-section-id="{{ section.id }}">
+    <div class="page-width">
+        {% if section.settings.has_fullwidth == false %}
+          <div class="container">
+        {% endif %}
+            {% if section.settings.title != blank %}
+                <div class="block_heading">
+                    {% if section.settings.title != blank %}
+                        <div class="title_block">
+                            <span>{{ section.settings.title | escape }}</span>
+                        </div>
+                    {% endif %}
+                </div> 
+            {% endif %}
+            <div class="block_category_grid">
+                <div class="row spacing-{{ section.settings.spacing }}">
+                    {% for block in section.blocks %}
+                        <div class="{% if block.settings.class %}{{ block.settings.class }}{% endif %} category_item" {{ block.shopify_attributes }}>
+                            <div class="block_content d-flex d-xs-block align-items-center">
+                                <div class="category_image">
+                                    {% if block.settings.image != blank %}
+                                        <img class="lazyload" data-src="{{ block.settings.image | img_url: '204x' }}" alt="">
+                                    {% else %}
+                                        {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+                                    {% endif %}
+                                </div>
+                                <div class="block_info">
+                                    {% if block.settings.category_title != blank %}
+                                        <div class="category-subtitle" {% if block.settings.color_category_subtitle != blank %}style="color: {{ block.settings.color_category_subtitle }}"{% endif %}>{{ block.settings.category_subtitle | escape }}</div>
+                                    {% endif %}
+                                    {% if block.settings.category_title != blank %}
+                                        <div class="category-title" {% if block.settings.color_category_title != blank %}style="color: {{ block.settings.color_category_title }}"{% endif %}>{{ block.settings.category_title | escape }}</div>
+                                    {% endif %}
+                                    {% if block.settings.desc_category != blank %}
+                                        <div class="category-desc" {% if block.settings.color_desc_category != blank %}style="color: {{ block.settings.color_desc_category }}"{% endif %}>{{ block.settings.desc_category }}</div>
+                                    {% endif %}
+
+                                    {% if block.settings.cap_link != blank %}
+                                        <div class="category_button">
+                                            <a class="category_link" {% if block.settings.color_title_button != blank %}style="color: {{ block.settings.color_title_button }}"{% endif %} href="{{ block.settings.cap_link }}">{{ block.settings.title_button }}</a>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% if section.settings.has_fullwidth == false %}
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% schema %}
+   {
+        "name": "Nov Category",
+        "class": "index-section section_category wow fadeIn animated",
+        "max_blocks": 6,
+        "settings": [
+            {
+                "type": "text",
+                "id": "title",
+                "label": "Title"
+            },
+            {
+                "type": "select",
+                "id": "spacing",
+                "label": "Spacing Items",
+                "default": "0",
+                "options": [
+                    {
+                        "label": "0px",
+                        "value": "0"
+                    },
+                    {
+                        "label": "5px",
+                        "value": "5"
+                    },
+                    {
+                        "label": "10px",
+                        "value": "10"
+                    },
+                    {
+                        "label": "15px",
+                        "value": "15"
+                    },
+                    {
+                        "label": "20px",
+                        "value": "20"
+                    },
+                    {
+                        "label": "25px",
+                        "value": "25"
+                    },
+                    {
+                        "label": "30px",
+                        "value": "30"
+                    }
+                ]
+            },
+            {
+                "type": "checkbox",
+                "id": "has_fullwidth",
+                "label": "Full Width",
+                "default":   false
+            },
+            {
+                "type": "color",
+                "id": "background_color",
+                "label": "Background colors"
+            },
+            {
+                "type": "text",
+                "id": "distance_top",
+                "label": "Top Distance Section",
+                "default": "30px"
+            },
+            {
+                "type": "text",
+                "id": "distance_bottom",
+                "label": "Bottom Distance Section",
+                "default": "30px"
+            }
+        ],
+        "blocks": [
+            {
+                "type": "item_category",
+                "name": "Category Item",
+                "settings": [
+                    {
+                        "type": "text",
+                        "id": "class",
+                        "label": "Class"
+                    },
+                    {
+                        "type": "image_picker",
+                        "id": "image",
+                        "label": "Image"
+                    },
+                    {
+                        "type": "text",
+                        "id": "category_title",
+                        "label": "Category Title"
+                    },
+                    {
+                        "type": "color",
+                        "id": "color_category_title",
+                        "label": "Color"
+                    },
+                    {
+                        "type": "text",
+                        "id": "category_subtitle",
+                        "label": "Category Sub Title"
+                    },
+                    {
+                        "type": "color",
+                        "id": "color_category_subtitle",
+                        "label": "Color"
+                    },
+                    {
+                        "type": "text",
+                        "id": "desc_category",
+                        "label": "Desc Category",
+                        "default": "Vitae adipiscing turpis. Aenean ligula nibh, molestie id vivide ligula ipsum dolor sit amet consectetur"
+                    },
+                    {
+                        "type": "color",
+                        "id": "color_desc_category",
+                        "label": "Color"
+                    },
+                    {
+                        "type": "header",
+                        "content": "Button"
+                    },
+                    {
+                        "type": "text",
+                        "id": "title_button",
+                        "label": "Text button"
+                    },
+                    {
+                        "type": "color",
+                        "id": "color_title_button",
+                        "label": "Color"
+                    },
+                    {
+                        "type": "url",
+                        "id": "cap_link",
+                        "label": "Link button"
+                    }
+                ]
+            }
+        ],
+        "presets": [
+            {
+                "name": "Vinova Category",
+                "category": "Shop By"
+            }
+        ]
+    }
+{% endschema %}

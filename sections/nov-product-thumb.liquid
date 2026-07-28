@@ -1,0 +1,349 @@
+ <div class="distance" style="padding-top: {{ section.settings.distance_top }}; padding-bottom: {{ section.settings.distance_bottom }}">
+  <div class="product-thumb" data-section-id="{{ section.id }}" data-section-type="nov-owl">
+    {% if section.settings.has_fullwidth == false %}
+      <div class="container">
+    {% endif %}
+      <div class="page-width">
+        {% if section.settings.title != blank %}
+          <div class="block_title">
+            <div class="d-flex align-items-center d-xs-block">
+              {% if section.settings.title != blank %}
+                <div class="title_block" {% if section.settings.color_title != blank %}style="color: {{ section.settings.color_title }}"{% endif %}><span>{{ section.settings.title }}</span></div>
+              {% endif %}
+              {% if section.settings.subheading != blank %}
+                <div class="sub_title" {% if section.settings.color_subheading != blank %}style="color: {{ section.settings.color_subheading }}"{% endif %}>{{ section.settings.subheading | escape }}</div>
+              {% endif %}
+            </div>
+          </div>
+        {% endif %}
+        <div class="row grid--view-items">
+          <div class="nov-owl-carousel owl-carousel owl-theme"
+            data-autoplay="false" 
+            data-autoplayTimeout="6000" 
+            data-loop="false"
+            data-margin="{{ section.settings.spacing }}" 
+            data-dots="{{ section.settings.show_dots }}" 
+            data-nav="{{ section.settings.show_nav }}" 
+            data-row="1" 
+            data-adaptiveHeight="false" 
+            data-items="{{ section.settings.grid_number }}" 
+            data-items_lg_desktop="{{ section.settings.items_lg_desktop }}" 
+            data-items_lg_tablet="{{ section.settings.grid_number_lg_tablet }}" 
+            data-items_tablet="{{ section.settings.items_tablet }}" 
+            data-items_mobile="{{ section.settings.items_mobile }}"
+            data-items_mobiles="{{ section.settings.items_mobiles }}">
+            {% for block in section.blocks %}
+              {% assign product = all_products[block.settings.product_handle] %}
+              <div class="item col">
+                <div class="item-product {% unless product.available %}product-price--sold-out{% endunless %}">
+                  <div class="row">
+                    <div class="col-xl-6 col-lg-6 col-md-5 col-sm-5 col-xs-12 thumb_image">
+                      <div class="thumb-container">
+                        {% assign variantCount = product.variants | size %}
+                        <div class="thumnailslider-for thumnailslider-for_{{ forloop.index }} thumbnail-container {% if product.images.size > 2 %}has-multiimage{% endif %}" data-asnavfornav=".thumnailslider-nav_{{ forloop.index }}">
+                          {% for image in product.images %}
+                            <div class="item">
+                              <a href="{{ product.url | within: collection }}">
+                                <img class="img-fluid product__thumbnail" src="{{ image.src | img_url: '270x' }}" alt="">
+                              </a>
+                            </div>
+                          {% endfor %}
+                        </div>
+                        {% if product.images.size > 1 %}
+                          <div class="productThumbs">
+                            <div class="thumnailslider-nav thumnailslider-nav_{{ forloop.index }}" 
+                              data-asnavforfor=".thumnailslider-for_{{ forloop.index }}" 
+                              data-vertical="true" 
+                              data-autoplay="false" 
+                              data-autoplayTimeout="6000" 
+                              data-items="3"
+                              data-items_lg_tablet="3"
+                              data-items_tablet="3"
+                              data-items_mobile="3"
+                              data-items_mobiles="5"
+                              data-nav="false" 
+                              data-dots="false" 
+                              data-loop="true">
+                              {% for image in product.images %}
+                                <div class="thumbItem">
+                                  <a href="#" data-image="{{ image.src | img_url: product_image }}" class="product-single__thumbnail">
+                                    <img class="img-fluid img-responsive lazyload" data-src="{{ image.src | img_url: '100x100' }}" alt="">
+                                  </a>
+                                </div>
+                              {% endfor %}
+                            </div>
+                          </div>
+                        {% endif %}
+                      </div>
+                    </div>
+                    <div class="col-xl-6 col-lg-6 col-md-7 col-sm-7 col-xs-12 thumb_info">
+                      <div class="product__info">
+                        <div class="product__title">
+                          <a href="{{ product.url | within: collection }}">{{ product.title | truncatewords: 12 }}</a>
+                        </div>
+
+                        {% if settings.show_rating %}
+                          <div class="product__review">
+                            <div class="rating"><span class="shopify-product-reviews-badge" data-id="{{ product.id }}"></span></div>
+                          </div>
+                        {% endif %}
+
+                        <div class="product__price">
+                          {% include 'product-price' %}
+                        </div>
+
+                        {%- if block.settings.countdown_timeend != blank -%}
+                          {%- assign countdownTime = block.settings.countdown_timeend -%}
+                          <div class="countdownfree" data-countdown="{{ countdownTime }}"></div>
+                        {%- endif -%}
+
+                        <div class="group-buttons d-flex {% if justify.size > 0 %}{{ justify }}{% endif %}">
+                          {% assign variantCount = product.variants | size %}
+                          
+                          <form class="formAddToCart" action="/cart/add" method="post" enctype="multipart/form-data">
+                            <input type="hidden" name="id" value="{{ product.variants.first.id }}" />
+                            {% if sold_out %}
+                              <button class="btn btnAddToCart disabled" type="submit" value="Submit" 
+                                data-handle="{{ product.handle }}"
+                                {% if settings.tooltip_enable %} 
+                                  data-toggle="tooltip" 
+                                  data-placement="top" 
+                                {% endif %}
+                                title="" tabindex="0" disabled >
+                                <i class="zmdi zmdi-block-alt"></i>
+                              </button>
+                            {% else %}
+                              {% if variantCount > 1 %}
+                                <a class="btn btnAddToCart btnChooseVariant" 
+                                  href="javascript:void(0);" 
+                                  data-url="/products/{{ product.handle }}?view=json"
+                                  {% if settings.tooltip_enable %} 
+                                    data-toggle="tooltip" 
+                                    data-placement="top" 
+                                  {% endif %}
+                                  title="" tabindex="0">
+                                  <i class="zmdi zmdi-check"></i>
+                                  <span>{{ 'products.product.select_options' | t }}</span>
+                                </a>
+                              {% else %}
+                                <button class="btn btnAddToCart" type="submit" value="Submit" 
+                                  data-handle="{{ product.handle }}"
+                                  data-pid="{{ product.variants.first.id }}"
+                                  {% if settings.tooltip_enable %} 
+                                    data-toggle="tooltip" 
+                                    data-placement="top" 
+                                  {% endif %}
+                                  title="" tabindex="0">
+                                  <i class="icon_cart"></i>
+                                  <span>{{ 'products.product.add_to_cart' | t }}</span>
+                                </button>
+                              {% endif %}
+                            {% endif %}
+                          </form>
+                          {% if settings.wishlist_enable %}
+                            {% include 'nov-wishlist' %}
+                          {% endif %}
+                          {% if settings.quickview_enable %}
+                            {% include 'nov-quickview' %}
+                          {% endif %}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        </div> 
+      </div>
+    {% if section.settings.has_fullwidth == false %}
+      </div>
+    {% endif %}
+  </div>
+</div>
+{% schema %}
+{
+  "name": "Vinova products thumb",
+  "class": "index-section section-product-thumb",
+  "settings":[
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Vinova Collection Tabs"
+    },
+    {
+      "type": "color",
+      "id": "color_title",
+      "label": "Color"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Sub Heading",
+      "default": "Subtitle from happy customers"
+    },
+    {
+      "type": "color",
+      "id": "color_subheading",
+      "label": "Color"
+    },
+    {
+      "type": "range",
+      "id": "grid_number",
+      "min": 1,
+      "max": 6,
+      "step": 1,
+      "label": "Products per row (Large Desktop)",
+      "default": 3
+    },
+    {
+      "type": "range",
+      "id": "items_lg_desktop",
+      "min": 1,
+      "max": 6,
+      "step": 1,
+      "label": "Products per 1440px row (Desktop)",
+      "default": 3
+    },
+    {
+      "type": "range",
+      "id": "grid_number_lg_tablet",
+      "min": 1,
+      "max": 6,
+      "step": 1,
+      "label": "Products per row (Desktop)",
+      "default": 3
+    },
+    {
+      "type": "range",
+      "id": "items_tablet",
+      "min": 1,
+      "max": 6,
+      "step": 1,
+      "label": "Items Tablet",
+      "default": 3,
+      "info": "Select number Items Tablet for slider"
+    },
+    {
+      "type": "range",
+      "id": "items_mobile",
+      "min": 1,
+      "max": 6,
+      "step": 1,
+      "label": "Items Mobile",
+      "default": 2,
+      "info": "Select number Items Mobile for slider"
+    },
+    {
+      "type": "range",
+      "id": "items_mobiles",
+      "min": 1,
+      "max": 6,
+      "step": 1,
+      "label": "Items Mobile 480",
+      "default": 1,
+      "info": "Select number Items Mobile for slider"
+    },
+    {
+      "type": "range",
+      "id": "limit",
+      "min": 4,
+      "max": 30,
+      "step": 1,
+      "label": "Limit",
+      "default": 30,
+      "info": "Select number limit products"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_nav",
+      "label": "Show navigation",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_dots",
+      "label": "Show dots",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_loop",
+      "label": "Show Loop",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "autoplay",
+      "label": "Auto play",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "class",
+      "label": "Class"
+    },
+    {
+      "type": "checkbox",
+      "id": "has_fullwidth",
+      "label": "Full Width",
+      "default":   false
+    },
+    {
+      "type": "text",
+      "id": "distance_top",
+      "label": "Top Distance Section",
+      "default": "30px"
+    },
+    {
+      "type": "text",
+      "id": "distance_bottom",
+      "label": "Bottom Distance Section",
+      "default": "30px"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "productcountdownlist",
+      "name": "Product Item",
+      "settings": [
+        {
+          "type": "product",
+          "id": "product_handle",
+          "label": "Product"
+        },
+        {
+          "type": "header",
+          "content": "Countdown timer"
+        },
+        {
+          "type": "text",
+          "id": "countdown_timeend",
+          "label": "Time End",
+          "placeholder": "YYYY\/MM\/DD"
+        },
+        {
+          "type": "paragraph",
+          "content": "Format: 'Year\/Month\/Day'"
+        },
+        {
+          "type": "paragraph",
+          "content": "Example: '2019\/01\/30'"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Vinova Products thumb",
+      "category": "Product",
+      "blocks": [
+        {
+        "type":"productcountdownlist"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

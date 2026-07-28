@@ -1,0 +1,329 @@
+<div class="avenger">
+  <div class="row">
+    {% for block in section.blocks %}
+      {% if block.type == 'link' %}
+        {%- assign footer_linklist = block.settings.menu_handle -%}
+        <div class="footer_menu footer-block footer-block__{{ forloop.index }} {{ block.settings.menu_class }}">
+            {% if block.settings.menu_title != blank %}
+            <div class="title-block">
+              {{ block.settings.menu_title }}
+            </div>
+            {% endif %}
+  
+            {% if linklists[footer_linklist].links.size > 0 %}
+              <ul class="site-footer__linklist list-unstyled">
+                {% for link in linklists[footer_linklist].links %}
+                  <li class="site-footer__linklist-item">
+                    <a href="{{ link.url }}">{{ link.title }}</a>
+                  </li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+        </div>
+      {% endif %}
+
+      {% if block.type == 'block_support' %}
+        <div class="footer_support footer-block footer-block__{{ forloop.index }} {{ block.settings.block_class }}">
+          {% if block.settings.block_title != blank %}
+            <div class="title-block">
+              {{ block.settings.block_title }}
+            </div>
+          {% endif %}
+          <div class="block-contact">
+            <div class="support d-flex align-items-center">
+              {% if block.settings.icon_support != blank %}
+                <div class="contact_info icon_support">
+                  <img class="img-fluid" src="{{ block.settings.icon_support | img_url: '150x' }}">
+                </div>
+              {% endif %}
+              <div class="content">
+                {% if block.settings.title_support != blank %}
+                  <p class="text">{{ block.settings.title_support }}</p>
+                {% endif %}
+                {% if block.settings.desc_support != blank %}
+                  <span class="contact_support">{{ block.settings.desc_support }}</span>
+                {% endif %}
+              </div>
+            </div>
+            <div class="address d-flex align-items-center">
+              {% if block.settings.icon_address != blank %}
+                <div class="contact_info icon_address">
+                  <img class="img-fluid" src="{{ block.settings.icon_address | img_url: '150x' }}">
+                </div>
+              {% endif %}
+              <div class="content">
+                {% if block.settings.title_address != blank %}
+                  <span class="text">{{ block.settings.title_address }}</span> 
+                {% endif %}
+                {% if block.settings.desc_address != blank %}
+                  <p class="contact_address">{{ block.settings.desc_address }}</p>
+                {% endif %}
+              </div>
+            </div>
+            <div class="mail d-flex align-items-center">
+              {% if block.settings.icon_mail != blank %}
+                <div class="contact_info icon_mail">
+                  <img class="img-fluid" src="{{ block.settings.icon_mail | img_url: '150x' }}">
+                </div>
+              {% endif %}
+              <div class="content">
+                {% if block.settings.title_mail != blank %}
+                  <span class="text">{{ block.settings.title_mail }}</span> 
+                {% endif %}
+                {% if block.settings.desc_mail != blank %}
+                  <p class="contact_mail">{{ block.settings.desc_mail }}</p>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endif %}
+       
+      {% if block.type == 'block_html' %}
+        <div class="footer_html footer-block footer-block__{{ forloop.index }} {{ block.settings.block_class }}">
+          {% if block.settings.block_title != blank %}
+          <div class="title-block">
+            {{ block.settings.block_title }}
+          </div>
+          {% endif %}
+          {% if block.settings.img != blank %}
+            <img class="img-fluid" src="{{ block.settings.img | img_url: '200x' }}">
+          {% endif %}
+          {% if block.settings.html_content != blank %}
+          <div class="block-content">
+            {{ block.settings.html_content }}
+          </div>
+          {% endif %}
+        </div>
+      {% endif %}
+  
+      {% if block.type == 'block_contact' %}
+        <div class="footer_contact footer-block footer-block__{{ forloop.index }} {{ block.settings.block_class }}">
+          {% if block.settings.block_title != blank %}
+          <div class="title-block">
+            {{ block.settings.block_title }}
+          </div>
+          {% endif %}
+          {% if block.settings.logo_description != blank %}
+          <div class="logo_description">
+            {{ block.settings.logo_description }}           
+          </div>
+          {% endif %}
+          <div class="block-content">
+            {% if block.settings.contact_phone != blank %}
+              <div class="contact d-flex">
+                <div class="icon-contact">
+                  <i class="icon-phone"></i>
+                </div>
+                <div class="phone-content">
+                  <div class="number">{{ block.settings.contact_phone }}<p>{{ block.settings.contact_phone_2 }}</p></div>
+                </div>
+              </div>
+            {% endif %}
+
+            {% if block.settings.contact_email != blank %}
+              <div class="contact d-flex">
+                <div class="icon-contact">
+                  <i class="icon-mail"></i>
+                </div>
+                <div class="email-content">
+                  <div class="email">{{ block.settings.contact_email }}<p>{{ block.settings.contact_email_2 }}</p></div>
+                </div>
+              </div>
+            {% endif %}
+            
+            {% if block.settings.contact_address != blank %}
+              <div class="contact d-flex">
+                <div class="icon-contact">
+                  <i class="icon-location"></i>
+                </div>
+                <div class="address-content">
+                  <div class="content-address">{{ block.settings.contact_address }}</div>
+                </div>
+              </div>
+            {% endif %}
+
+            {% if block.settings.contact_hours != blank %}
+              <div class="contact d-flex">
+                <div class="icon-contact">
+                  <i class="icon-hours"></i>
+                </div>
+                <div class="hours-content">
+                  <div class="content-hours">{{ block.settings.contact_hours }}</div>
+                </div>
+              </div>
+            {% endif %}
+            
+            {% if block.settings.contact_fax != blank %}
+              <div class="contact d-flex">
+                {% if block.settings.contact_fax != blank %}
+                <div class="contact-fax">
+                  {{ block.settings.contact_fax }}
+                </div>
+                {% endif %}
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      {% endif %}
+  
+      {% if block.type == 'block_policy' %}
+        <div class="{{ block.settings.block_class }} d-flex nov-policy-item align-items-center">
+          <div class="image mb-lg-10">
+            <img class="img-fluid" src="{{ block.settings.block_img | img_url: '100x' }}" alt="">
+          </div>
+          <div class="content-text ml-25 ml-lg-0 text-uppercase">
+            <div class="title mb-5">{{ block.settings.block_title }}</div>
+            <div class="content">{{ block.settings.block_content }}</div>
+          </div>
+        </div>
+      {% endif %}
+  
+      {% if block.type == 'block_newsletter' %}
+        <div class="footer_newsletter footer-block footer-block__{{ forloop.index }} {{ block.settings.block_class }}">
+          {% if block.settings.block_title != blank %}
+          <div class="title-block">
+            {{ block.settings.block_title }}
+          </div>
+          {% endif %}
+          {% if block.settings.newsletter_des != blank %}
+            <div class="des">{{ block.settings.newsletter_des }}</div>
+          {% endif %}
+          <div class="block-content">
+            <div class="site-footer__newsletter">
+              {% form 'customer' %}
+                {{ form.errors | default_errors }}
+                {% if form.posted_successfully? %}
+                  <p class="form--success">{{ 'general.newsletter_form.confirmation' | t }}</p>
+                {% else %}
+                  <div class="input-group">
+                    <input type="hidden" name="contact[tags]" value="newsletter">
+                    <input type="email"
+                      name="contact[email]"
+                      id="Email_Footer"
+                      class="input-group__field newsletter__input form-control"
+                      value="{% if customer %}{{ customer.email }}{% endif %}"
+                      placeholder="{{ 'general.newsletter_form.email_newsletter' | t }}">
+                  </div>
+                  <div class="input-group__btn">
+                    <button type="submit" class="btn newsletter__submit d-flex align-items-center" name="commit" id="Subscribe_footer">
+                      <span class="newsletter__submit-text--large">{{ 'general.newsletter_form.submit' | t }}</span>
+                    </button>
+                  </div>
+                {% endif %}
+              {% endform %}
+            </div>
+          </div>
+          <div class="social_footer">
+            {% include 'nov-social' %}
+          </div>
+        </div>
+      {% endif %}
+  
+      {% if block.type == 'block_follow_openhour' %}
+        <div class="footer_follow-openhour footer-block footer-block__{{ forloop.index }} {{ block.settings.block_class }}">
+          {% if block.settings.block_title_1 != blank %}
+            <div class="title-block">
+              {{ block.settings.block_title_1 }}
+            </div>
+          {% endif %}
+
+          {% if block.settings.block_title_2 != blank %}
+            <div class="title-block mt-15">
+              {{ block.settings.block_title_2 }}
+            </div>
+            {{ block.settings.block_content }}
+          {% endif %}
+        </div>
+      {% endif %}
+
+      {% if block.type == 'block_instagram' %}
+        <div class="block_instagram footer-block footer-block__{{ forloop.index }} {{ block.settings.block_class }}">
+          {% if block.settings.block_title != blank %}
+          <div class="title-block">
+            {{ block.settings.block_title }}
+          </div>
+          {% endif %}
+          <div class="block-content">
+            <div id="instafeed" class="boxInstagram boxInstagram-grid row spacing-{{ block.settings.spacing_grid }}" 
+              data-limit="{{ block.settings.limit }}" 
+              data-userid="{{ block.settings.user_id }}" 
+              data-accesstoken="{{ block.settings.access_token }}" 
+              data-items="{{ block.settings.show_number }}" 
+              data-items_mobile="{{ block.settings.mobile_number }}">
+            </div>
+          </div>
+        </div>
+      {% endif %}
+
+      {% if block.type == 'block_map' %}
+        <div class="footer_map footer-block footer-block__{{ forloop.index }} {{ block.settings.block_class }}">
+          {%- assign display_map = false -%}
+          {%- assign onboarding = false -%}
+          {%- assign bg_image = block.settings.background_image -%}
+
+          {%- if block.settings.api_key == blank and bg_image == blank -%}
+            {%- assign onboarding = true -%}
+          {%- endif -%}
+          {%- if block.settings.api_key != blank and block.settings.map_address -%}
+            {%- assign display_map = true -%}
+          {%- endif -%}
+
+          <div id="MapSection--{{ section.id }}"
+            class="map-section {% if display_map %}map-section--display-map{% endif %} {% if onboarding == true %}map-section--onboarding{% endif %}"
+            data-section-id="{{ section.id }}"
+            data-section-type="map">
+            <div class="page-width map-section__wrapper">
+              <div class="map-section__content-wrapper">
+                <div class="map-section__content">
+                  {% if block.settings.heading != blank %}
+                    <h3 class="h4">{{ block.settings.heading | escape }}</h3>
+                  {% endif %}
+                  {% if block.settings.address != blank %}
+                    <div class="rte-setting">{{ block.settings.address }}</div>
+                    {% if block.settings.map_address != blank and block.settings.button_text != blank %}
+                      <p>
+                        <a href="https://maps.google.com?daddr={{ block.settings.map_address | escape }}"
+                           class="btn btn--secondary btn--small map_section__directions-btn"
+                           target="_blank"
+                        >
+                          <span>{{ block.settings.button_text | escape }}</span>
+                        </a>
+                      </p>
+                    {% endif %}
+                  {% endif %}
+                </div>
+              </div>
+              <div class="map-section__background-wrapper">
+                {% if bg_image != blank %}
+                  <div class="map-section__image lazyload js"
+                       data-bgset="{% include 'bgset', image: bg_image %}"
+                       data-sizes="auto"
+                       data-parent-fit="cover"
+                       style="background-image: url('{{ bg_image | img_url: '300x300' }});">
+                  </div>
+                  <noscript>
+                    <div class="map-section__image" style="background-image: url({{ bg_image | img_url: 'x800', crop: 'top' }});"></div>
+                  </noscript>
+                {% elsif onboarding == true %}
+                  <div class="placeholder-background">
+                    {{ 'lifestyle-2' | placeholder_svg_tag: 'placeholder-svg' }}
+                  </div>
+                {% endif %}
+                {% if display_map %}
+                  <div class="map-section__container"
+                       id="Map-{{ section.id }}"
+                       data-map
+                       data-address-setting="{{ block.settings.map_address | escape }}"
+                       data-api-key="{{ block.settings.api_key }}">
+                  </div>
+                  <div class="map-section__overlay" data-map-overlay></div>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+</div>

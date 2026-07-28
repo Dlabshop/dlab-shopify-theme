@@ -1,0 +1,783 @@
+<div class="vertical_lt" style="padding-top: {{ section.settings.distance_top }}; padding-bottom: {{ section.settings.distance_bottom }}">
+  <div class="vertical_dropdown{% if template.name == 'index' %} active{% endif %}">
+    <div class="title_vertical position-relative d-flex align-items-center{% if template.name != 'index' %} template-{% endif %}">
+      <i class="zmdi zmdi-format-subject"></i>
+      <span class="sidebar-menu_title">{{ 'layout.header.sidebarmenu_title' | t }}</span>
+    </div>
+  </div>
+  <div id="_desktop_vertical_menu" class="vertical_menu has-showmore"
+    data-count_showmore="{{ section.settings.show_more }}"
+    data-count_showmore_tablet="{{ section.settings.show_more_tablet }}"
+    data-textshowmore="{{ 'layout.verticalmenu.show_more' | t }}"
+    data-textless="Show Less">
+    <ul class="site-nav" id="SiteNav">
+      {% assign count_showmore = section.settings.show_more | plus: 0 %}
+      {% for link in linklists[section.settings.vertical_menu].links %}
+        {% assign isMega = false %}
+        {% assign isIcon = false %}
+        {% assign class_hidden = '' %}
+        {%- assign three_level_nav = false -%}
+        {%- assign child_list_handle = link.title | handleize -%}
+
+        {% if linklists[child_list_handle].links != blank %}
+          {% for childlink in linklists[child_list_handle].links %}
+            {% assign grand_child_list_handle = childlink.title | handleize %}
+            {% if linklists[grand_child_list_handle].links != blank %}
+              {%- assign three_level_nav = true -%}
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+
+        {% if section.settings.novmenu_enable %}
+          {% if section.settings.show_icons %}
+            {% for block in section.blocks %}
+              {% assign menuItem = link.title %}
+              {% if block.settings.novmenu_item contains menuItem %}
+                {% include 'nov-megamenu', class_hidden: class_hidden %}
+                {% assign isMega = true %}
+                {% break %}
+              {% endif %}
+            {% endfor %}
+          {% endif %}
+        {% endif %}
+
+        {% if section.settings.show_icons %}
+          {% for block in section.blocks %}
+            {% assign menuItem = link.title %}
+            {% if block.settings.name_item contains menuItem %}
+              {% include 'nov-iconmenu', class_hidden: class_hidden %}
+              {% assign isIcon = true %}
+              {% break %}
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+
+        {% if isMega == false and isIcon == false %}
+          {% if linklists[child_list_handle].links != blank %}
+            <li class="site-nav--has-dropdown {% if link.active %} site-nav--active{% endif %}{{ class_hidden }}" aria-controls="SiteNavLabel-{{ child_list_handle }}">
+              <a href="{{ link.url }}" class="site-nav__link site-nav__link--main">
+                {{ link.title }}
+                <span class="d-lg-none show_sub"><i class="zmdi zmdi-plus-square"></i></span>
+              </a>
+              <div class="site-nav__dropdown" id="SiteNavLabel-{{ child_list_handle }}" aria-expanded="false" role="main">
+                {% if three_level_nav %}
+                  <div class="site-nav__childlist">
+                    <div class="site-nav__childlist-grid">
+                      {% if linklists[child_list_handle].links != blank %}
+                        {% for childlink in linklists[child_list_handle].links %}
+                          {% assign grand_child_list_handle = childlink.title | handle %}
+                          <div class="site-nav__childlist-item">
+                            <a href="{{ childlink.url }}" class="site-nav__link site-nav__child-link site-nav__child-link--parent">{{ childlink.title | escape }}</a>
+                            <div class="site-nav__dropdown_three">
+                              <ul class="sub-menu">
+                                {% for grandchildlink in linklists[grand_child_list_handle].links %}
+                                  <li>
+                                    <a href="{{ grandchildlink.url }}" class="site-nav__link site-nav__child-link">{{ grandchildlink.title | escape }}</a>
+                                  </li>
+                                {% endfor %}
+                              </ul>
+                            </div>
+                          </div>
+                        {% endfor %}
+                      {% endif %}
+                    </div>
+                  </div>
+                {% else %}
+                  <ul>
+                    {% for childlink in linklists[child_list_handle].links %}
+                      <li {% if childlink.active %}class="site-nav--active"{% endif %}>
+                        <a href="{{ childlink.url }}" class="site-nav__link site-nav__child-link{% if forloop.last %} site-nav__link--last{% endif %}">{{ childlink.title | escape }}</a>
+                      </li>
+                    {% endfor %}
+                  </ul>
+                {% endif %}
+              </div>
+            </li>
+          {% else %}
+            <li class="{{ class_hidden }}{% if link.active %} site-nav--active{% endif %}">
+              <a href="{{ link.url }}" class="site-nav__link site-nav__link--main">
+                {{ link.title }}
+              </a>
+            </li>
+          {% endif %}
+        {% endif %}
+      {% endfor %}
+      {% if condition %}
+        what to do
+      {% endif %}
+    </ul>
+  </div>
+</div>
+
+{% schema %}
+{
+	"name": "Vertical menu",
+	"class": "index-section vertical wow fadeIn animated",
+	"settings": [
+    {
+      "type": "link_list",
+      "id": "vertical_menu",
+      "label": "Vertical Menu"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_icons",
+      "label": "Enable Icon",
+      "info": "Acitve Icon Menu"
+    },
+    {
+      "type": "checkbox",
+      "id": "novmenu_enable",
+      "label": "Enable Megamenu",
+      "info": "Acitve Vinova Menu"
+    },
+    {
+      "type": "text",
+      "id": "distance_top",
+      "label": "Top Distance Section",
+      "default": "30px"
+    },
+    {
+      "type": "text",
+      "id": "distance_bottom",
+      "label": "Bottom Distance Section",
+      "default": "30px"
+    }
+	],
+	"blocks": [
+    {
+      "type": "text",
+      "name": "Megamenu Item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "novmenu_item",
+          "label": "Menu item name",
+          "info": "Menu item of main-menu. Menu item has dropdown megamenu."
+        },
+        {
+          "type": "text",
+          "id": "submenu_width",
+          "label": "Submenu Width (px)"
+        },
+        {
+          "type": "image_picker",
+          "id": "icon_menu",
+          "label": "Icon Menu"
+        },
+        {
+          "type": "text",
+          "id": "sub_title_menu",
+          "label": "Sub title menu"
+        },
+        {
+          "type": "image_picker",
+          "id": "img_bg",
+          "label": "background image for block"
+        },
+        {
+          "type": "header",
+          "content": "Block navigation",
+          "info": "Admin -> Navigation -> Menu. Position:1"
+        },
+        {
+          "type": "checkbox",
+          "id": "novmenu_menu_enable",
+          "label": "Enable navigation"
+        },
+        {
+          "type": "select",
+          "id": "novmenu_menu_col_lg",
+          "label": "Width on megamenu large desktop",
+          "default": "col-xl-3",
+          "options": [
+            {
+              "value": "col-xl-2",
+              "label": "2/12"
+            },
+            {
+              "value": "col-xl-3",
+              "label": "3/12"
+            },
+            {
+              "value": "col-xl-4",
+              "label": "4/12"
+            },
+            {
+              "value": "col-xl-6",
+              "label": "6/12"
+            },
+            {
+              "value": "col-xl-7",
+              "label": "7/12"
+            },
+            {
+              "value": "col-xl-8",
+              "label": "8/12"
+            },
+            {
+              "value": "col-xl-9",
+              "label": "9/12"
+            },
+            {
+              "value": "col-xl-10",
+              "label": "10/12"
+            },                  
+            {
+              "value": "col-xl-12",
+              "label": "12/12"
+            }
+          ]
+        },
+        {
+          "type": "select",
+          "id": "novmenu_menu_col",
+          "label": "Width on megamenu desktop",
+          "default": "col-lg-3",
+          "options": [
+            {
+              "value": "col-lg-2",
+              "label": "2/12"
+            },
+            {
+              "value": "col-lg-3",
+              "label": "3/12"
+            },
+            {
+              "value": "col-lg-4",
+              "label": "4/12"
+            },
+            {
+              "value": "col-lg-6",
+              "label": "6/12"
+            },
+            {
+              "value": "col-lg-7",
+              "label": "7/12"
+            },
+            {
+              "value": "col-lg-8",
+              "label": "8/12"
+            },
+            {
+              "value": "col-lg-9",
+              "label": "9/12"
+            },
+            {
+              "value": "col-lg-10",
+              "label": "10/12"
+            },                  
+            {
+              "value": "col-lg-12",
+              "label": "12/12"
+            }
+          ]
+        },
+        {
+          "type": "select",
+          "id": "novmenu_menu_col_tablet",
+          "label": "Width on megamenu Tablet",
+          "default": "col-md-3",
+          "options": [
+            {
+              "value": "col-md-2",
+              "label": "2/12"
+            },
+            {
+              "value": "col-md-3",
+              "label": "3/12"
+            },
+            {
+              "value": "col-md-4",
+              "label": "4/12"
+            },
+            {
+              "value": "col-md-6",
+              "label": "6/12"
+            },
+            {
+              "value": "col-md-8",
+              "label": "8/12"
+            },
+            {
+              "value": "col-md-9",
+              "label": "9/12"
+            },
+            {
+              "value": "col-md-10",
+              "label": "10/12"
+            },                  
+            {
+              "value": "col-md-12",
+              "label": "12/12"
+            }
+          ]
+        },
+        {
+          "type": "select",
+          "id": "novmenu_menu_menucol_lg",
+          "label": "Width Fisrt Children Menu On Megamenu Large Desktop",
+          "default": "col-xl-3",
+          "options": [
+            {
+              "value": "col-xl-2",
+              "label": "2/12"
+            },
+            {
+              "value": "col-xl-3",
+              "label": "3/12"
+            },
+            {
+              "value": "col-xl-4",
+              "label": "4/12"
+            },
+            {
+              "value": "col-xl-6",
+              "label": "6/12"
+            },
+            {
+              "value": "col-xl-8",
+              "label": "8/12"
+            },
+            {
+              "value": "col-xl-9",
+              "label": "9/12"
+            },
+            {
+              "value": "col-xl-10",
+              "label": "10/12"
+            },                  
+            {
+              "value": "col-xl-12",
+              "label": "12/12"
+            }
+          ]
+        },
+        {
+          "type": "select",
+          "id": "novmenu_menu_menucol",
+          "label": "Width Fisrt Children Menu On Megamenu Desktop",
+          "default": "col-lg-3",
+          "options": [
+            {
+              "value": "col-lg-2",
+              "label": "2/12"
+            },
+            {
+              "value": "col-lg-3",
+              "label": "3/12"
+            },
+            {
+              "value": "col-lg-4",
+              "label": "4/12"
+            },
+            {
+              "value": "col-lg-6",
+              "label": "6/12"
+            },
+            {
+              "value": "col-lg-8",
+              "label": "8/12"
+            },
+            {
+              "value": "col-lg-9",
+              "label": "9/12"
+            },
+            {
+              "value": "col-lg-10",
+              "label": "10/12"
+            },                  
+            {
+              "value": "col-lg-12",
+              "label": "12/12"
+            }
+          ]
+        },
+        {
+          "type": "select",
+          "id": "novmenu_menu_menucol_tablet",
+          "label": "Width Fisrt Children Menu On Megamenu Tablet",
+          "default": "col-md-3",
+          "options": [
+            {
+              "value": "col-md-2",
+              "label": "2/12"
+            },
+            {
+              "value": "col-md-3",
+              "label": "3/12"
+            },
+            {
+              "value": "col-md-4",
+              "label": "4/12"
+            },
+            {
+              "value": "col-md-6",
+              "label": "6/12"
+            },
+            {
+              "value": "col-md-8",
+              "label": "8/12"
+            },
+            {
+              "value": "col-md-9",
+              "label": "9/12"
+            },
+            {
+              "value": "col-md-10",
+              "label": "10/12"
+            },                  
+            {
+              "value": "col-md-12",
+              "label": "12/12"
+            }
+          ]
+        },
+        {
+          "type": "header",
+          "content": "Block Banner 1",
+          "info": "Position:1"
+        },
+        {
+          "type": "checkbox",
+          "id": "novmenu_banner_enable1",
+          "label": "Enable Banner 1"
+        },
+        {
+          "type": "select",
+          "id": "novmenu_banner_col1",
+          "label": "Width on megamenu",
+          "default": "col-lg-4",
+          "options": [
+            {
+              "value": "col-lg-2",
+              "label": "2/12"
+            },
+            {
+              "value": "col-lg-3",
+              "label": "3/12"
+            },
+            {
+              "value": "col-lg-4",
+              "label": "4/12"
+            },
+            {
+              "value": "col-lg-6",
+              "label": "6/12"
+            },
+            {
+              "value": "col-lg-8",
+              "label": "8/12"
+            },
+            {
+              "value": "col-lg-9",
+              "label": "9/12"
+            },
+            {
+              "value": "col-lg-10",
+              "label": "10/12"
+            },                  
+            {
+              "value": "col-lg-12",
+              "label": "12/12"
+            }
+          ]
+        },
+        {
+          "type": "select",
+          "id": "novmenu_banner_col1_tablet",
+          "label": "Width on megamenu Tablet",
+          "default": "col-md-4",
+          "options": [
+            {
+              "value": "col-md-2",
+              "label": "2/12"
+            },
+            {
+              "value": "col-md-3",
+              "label": "3/12"
+            },
+            {
+              "value": "col-md-4",
+              "label": "4/12"
+            },
+            {
+              "value": "col-md-6",
+              "label": "6/12"
+            },
+            {
+              "value": "col-md-8",
+              "label": "8/12"
+            },
+            {
+              "value": "col-md-9",
+              "label": "9/12"
+            },
+            {
+              "value": "col-md-10",
+              "label": "10/12"
+            },                  
+            {
+              "value": "col-md-12",
+              "label": "12/12"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "image_size1",
+          "label": "Image Size Banner 1",
+          "default": "255x300",
+          "info": "[Size parameters](https://help.shopify.com/themes/liquid/filters/url-filters#size-parameters)"
+        },
+        {
+          "type": "image_picker",
+          "id": "novmenu_banner1",
+          "label": "Banner image"
+        },
+        {
+          "type": "text",
+          "id": "novmenu_banner_link1",
+          "label": "Banner Link"
+        },
+        {
+          "type": "header",
+          "content": "Block Banner 2",
+          "info": "Position:3"
+        },
+        {
+          "type": "checkbox",
+          "id": "novmenu_banner_enable2",
+          "label": "Enable Banner 2"
+        },
+        {
+          "type": "select",
+          "id": "novmenu_banner_col2",
+          "label": "Width on megamenu",
+          "default": "col-lg-4",
+          "options": [
+            {
+              "value": "col-lg-2",
+              "label": "2/12"
+            },
+            {
+              "value": "col-lg-3",
+              "label": "3/12"
+            },
+            {
+              "value": "col-lg-4",
+              "label": "4/12"
+            },
+            {
+              "value": "col-lg-6",
+              "label": "6/12"
+            },
+            {
+              "value": "col-lg-8",
+              "label": "8/12"
+            },
+            {
+              "value": "col-lg-9",
+              "label": "9/12"
+            },
+            {
+              "value": "col-lg-10",
+              "label": "10/12"
+            },                  
+            {
+              "value": "col-lg-12",
+              "label": "12/12"
+            }
+          ]
+        },
+        {
+          "type": "select",
+          "id": "novmenu_banner_col2_tablet",
+          "label": "Width on megamenu Tablet",
+          "default": "col-md-4",
+          "options": [
+            {
+              "value": "col-md-2",
+              "label": "2/12"
+            },
+            {
+              "value": "col-md-3",
+              "label": "3/12"
+            },
+            {
+              "value": "col-md-4",
+              "label": "4/12"
+            },
+            {
+              "value": "col-md-6",
+              "label": "6/12"
+            },
+            {
+              "value": "col-md-8",
+              "label": "8/12"
+            },
+            {
+              "value": "col-md-9",
+              "label": "9/12"
+            },
+            {
+              "value": "col-md-10",
+              "label": "10/12"
+            },                  
+            {
+              "value": "col-md-12",
+              "label": "12/12"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "image_size2",
+          "label": "Image Size Banner 2",
+          "default": "255x300",
+          "info": "[Size parameters](https://help.shopify.com/themes/liquid/filters/url-filters#size-parameters)"
+        },
+        {
+          "type": "image_picker",
+          "id": "novmenu_banner2",
+          "label": "Banner image"
+        },
+        {
+          "type": "text",
+          "id": "novmenu_banner_link2",
+          "label": "Banner Link"
+        },
+        {
+          "type": "header",
+          "content": "Block Banner 3",
+          "info": "Position:4"
+        },
+        {
+          "type": "checkbox",
+          "id": "novmenu_banner_enable3",
+          "label": "Enable Banner 3"
+        },
+        {
+          "type": "select",
+          "id": "novmenu_banner_col3",
+          "label": "Width on megamenu",
+          "default": "col-lg-4",
+          "options": [
+            { 
+              "value": "col-lg-2",
+              "label": "2/12"
+            },
+            {
+              "value": "col-lg-3",
+              "label": "3/12"
+            },
+            {
+              "value": "col-lg-4",
+              "label": "4/12"
+            },
+            {
+              "value": "col-lg-6",
+              "label": "6/12"
+            },
+            {
+              "value": "col-lg-8",
+              "label": "8/12"
+            },
+            {
+              "value": "col-lg-9",
+              "label": "9/12"
+            },
+            {
+              "value": "col-lg-10",
+              "label": "10/12"
+            },                  
+            {
+              "value": "col-lg-12",
+              "label": "12/12"
+            }
+          ]
+        },
+        {
+          "type": "select",
+          "id": "novmenu_banner_col3_tablet",
+          "label": "Width on megamenu Tablet",
+          "default": "col-md-4",
+          "options": [
+            { 
+              "value": "col-md-2",
+              "label": "2/12"
+            },
+            {
+              "value": "col-md-3",
+              "label": "3/12"
+            },
+            {
+              "value": "col-md-4",
+              "label": "4/12"
+            },
+            {
+              "value": "col-md-6",
+              "label": "6/12"
+            },
+            {
+              "value": "col-md-8",
+              "label": "8/12"
+            },
+            {
+              "value": "col-md-9",
+              "label": "9/12"
+            },
+            {
+              "value": "col-md-10",
+              "label": "10/12"
+            },                  
+            {
+              "value": "col-md-12",
+              "label": "12/12"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "image_size3",
+          "label": "Image Size Banner 3",
+          "default": "255x300",
+          "info": "[Size parameters](https://help.shopify.com/themes/liquid/filters/url-filters#size-parameters)"
+        },
+        {
+          "type": "image_picker",
+          "id": "novmenu_banner3",
+          "label": "Banner image"
+        },
+        {
+          "type": "text",
+          "id": "novmenu_banner_link3",
+          "label": "Banner Link"
+        }           
+      ]
+    },
+    {
+      "type": "icon_menu",
+      "name": "Icon Menu",
+      "settings": [
+        {
+          "type": "text",
+          "id": "name_item",
+          "label": "Menu item name",
+          "info": "Menu item of main-menu. Menu item has dropdown megamenu."
+        },
+        {
+          "type": "image_picker",
+          "id": "icon_menus",
+          "label": "Icon Menu"
+        },
+        {
+          "type": "text",
+          "id": "sub_title_menu",
+          "label": "Sub title menu"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

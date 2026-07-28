@@ -1,0 +1,135 @@
+{% if section.settings.title != blank %}
+    <div class="block-stepbuy">
+        <div class="title_block">
+            <span>{{ section.settings.title | escape }}</span>
+        </div>
+        {% if section.settings.subheading != blank %}
+            <span class="sub_title">{{ section.settings.subheading | escape }}</span>
+        {% endif %}
+    </div>
+{% endif %}
+
+<div class="stepbuy">
+    <div class="stepbuy_grid">
+        <div class="row spacing-{{ section.settings.spacing }}">
+            {% case section.blocks.size %}
+                {% when 1 %}
+                    {%- assign column_size = 'col-lg-12 col-md-12 col-sm-12 col-xs-12' -%}
+                {% when 2 %}
+                    {%- assign column_size = 'col-lg-6 col-md-6 col-sm-6 col-xs-12' -%}
+                {% when 3 %}
+                    {%- assign column_size = 'col-lg-4 col-md-4 col-sm-4 col-xs-12' -%}
+                {% when 4 %}
+                    {%- assign column_size = 'col-lg-3 col-md-3 col-sm-3 col-xs-12' -%}
+                {% else %}
+                    {%- assign column_size = 'col-lg-cus-5 col-md-cus-5 col-sm-6 col-xs-12' -%}
+            {% endcase %}
+        
+            {% for block in section.blocks %}
+                <div class="{{ column_size }} stepbuy_item mb-md-30 {{ section.settings.class }}" {{ block.shopify_attributes }}>
+                    <div class="block_content stepbuy--{{ forloop.index }}">
+                        <div class="content-stepbuy">
+                            {% if block.settings.stepbuy_icon != blank %}
+                            <div class="stepbuy-icon">
+                                <img src="{{ block.settings.stepbuy_icon | img_url: '100x' }}" alt="icon_stepbuy">
+                            </div>
+                            {% endif %}
+                            <div class="stepbuy-info">
+                                <div class="title-stepbuy">{{ block.settings.title_stepbuy }}</div>
+                                <div class="desc-stepbuy">{{ block.settings.desc_stepbuy }}</div>
+                            </div>
+                        </div>
+                        <div class="stepbuy-number">{{ forloop.index }}</div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+{% schema %}
+   {
+        "name": "vinova page stepbuy",
+        "class": "index-section page-stepbuy wow fadeIn animated",
+        "max_blocks": 6,
+        "settings": [
+            {
+                "type": "text",
+                "id": "title",
+                "label": "Title"
+            },
+            {
+                "type": "text",
+                "id": "subheading",
+                "label": "Sub Heading"
+            },
+            {
+                "type": "select",
+                "id": "spacing",
+                "label": "Spacing Items",
+                "default": "0",
+                "options": [
+                    {
+                        "label": "0px",
+                        "value": "0"
+                    },
+                    {
+                        "label": "5px",
+                        "value": "5"
+                    },
+                    {
+                        "label": "10px",
+                        "value": "10"
+                    },
+                    {
+                        "label": "15px",
+                        "value": "15"
+                    },
+                    {
+                        "label": "20px",
+                        "value": "20"
+                    },
+                    {
+                        "label": "25px",
+                        "value": "25"
+                    },
+                    {
+                        "label": "30px",
+                        "value": "30"
+                    }
+                ]
+            },
+            {
+                "type": "text",
+                "id": "class",
+                "label": "Class",
+                "default": "mb-30"
+            }
+        ],
+        "blocks": [
+            {
+                "type": "item_stepbuy",
+                "name": "stepbuy Item",
+                "settings": [
+                    {
+                        "type": "image_picker",
+                        "id": "stepbuy_icon",
+                        "label": "stepbuy Icon"
+                    },
+                    {
+                        "type": "text",
+                        "id": "title_stepbuy",
+                        "label": "Title stepbuy",
+                        "default": "Free Delivery From $ 250"
+                    },
+                    {
+                        "type": "text",
+                        "id": "desc_stepbuy",
+                        "label": "Desc stepbuy",
+                        "default": "Lorem ipsum dolor sit amet"
+                    }
+                ]
+            }
+        ]
+    }
+{% endschema %}

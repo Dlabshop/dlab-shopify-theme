@@ -1,0 +1,300 @@
+{%- assign grid_number = section.settings.grid_number | plus:0 -%}
+{%- assign grid_number_lg_tablet = section.settings.grid_number_lg_tablet | plus:0 -%}
+{%- assign grid_number_tablet = section.settings.grid_number_tablet | plus:0 -%}
+{%- assign grid_number_mobile = section.settings.grid_number_mobile | plus:0 -%}
+{%- assign grid_number_mobiles = section.settings.grid_number_mobiles | plus:0 -%}
+{%- assign row_number = section.settings.row_number | plus:0 -%}
+{%- assign product_limit = section.settings.limit | plus:0 -%}
+
+{%- assign img_size = settings.img_size_large -%}
+{% if section.settings.grid_number == '5' %}
+	{%- assign grid_item_width = 'col-lg-cus-5' -%}
+{% else %}
+	{%- assign grid_item_width = 12 | divided_by: section.settings.grid_number | prepend: 'col-lg-' -%}
+{% endif %}
+{% if section.settings.grid_number_tablet == '5' %}
+	{%- assign col_tablet = 'col-md-cus-5' -%}
+{% else %}
+	{%- assign col_tablet = 12 | divided_by: section.settings.grid_number_tablet | prepend: 'col-md-' -%}
+{% endif %}
+{%- assign col_mobile = 12 | divided_by: section.settings.grid_number_mobile | prepend: 'col-xs-' -%}
+	
+<div class="distance" style="padding-bottom: {{ section.settings.distance_bottom }}">
+	<div data-section-id="{{ section.id }}" data-product-tabs>
+		<div class="page-width nov-collection-tabs{% if section.settings.class != blank %} {{ section.settings.class }}{% endif %} nov-collection-tabs-slider">
+			{% if section.settings.has_fullwidth == false %}
+				<div class="container">
+			{% endif %}
+				<div id="product-tabs-categories-{{ section.id }}" class="block product-tabs-categories">
+					<div class="box-tab">
+						<div class="{{ section.settings.title_alignment }}">
+							{% if section.settings.title != blank %}
+								<div class="title_block">
+									<span>{{ section.settings.title }}</span>
+								</div>
+								{% if section.settings.subheading != blank %}
+									<span class="sub_title">{{ section.settings.subheading | escape }}</span>
+								{% endif %}
+							{% endif %}
+						</div>
+						<div class="list-menu">
+							<ul class="nav nav-tabs list-product-tabs" role="tablist">
+								{% for block in section.blocks %}
+									{% if block.type == 'tabitem' %}
+										<li class="nav-item">
+											<a class="nav-link tab-links {% if forloop.first %} active{% endif %}" href="#producttab{{ forloop.index }}{{ section.id }}" 
+                                               data-target="#producttab{{ forloop.index }}{{ section.id }}" 
+                                               data-product-tabTop 
+                                               data-href="/collections/{{ block.settings.collection_handle }}?view=json"
+                                               id="tab-{{ forloop.index }}{{ section.id }}" data-id="{{ forloop.index }}{{ section.id }}"
+                                               data-toggle="tab" role="tab">
+												<div class="content-nav">
+													{% if block.settings.image_icon != blank %}
+														<img class="nav-imageicon" src="{{ block.settings.image_icon | img_url: '150x' }}" alt="{{ block.settings.tab_title }}">
+													{% endif %}
+													<span>{{ block.settings.tab_title }}</span>
+												</div>
+											</a>
+										</li>
+									{% endif %}
+								{% endfor %}
+							</ul>
+						</div>
+					</div>
+					<div class="product_tab_content tab-content product-tabs-content">
+  						{% for block in section.blocks %}
+                      		<div class="tab-content {% if forloop.first %} show active{% endif %}" data-product-TabContent id="producttab{{ forloop.index }}{{ section.id }}">
+                                <div class="products-grid row collection-carousel"
+                                 	data-items="{{ grid_number }}"
+	  								data-items_lg_desktop="{{ section.settings.items_lg_desktop }}" 
+	  								data-items_lg_tablet="{{ grid_number_lg_tablet }}"
+	  								data-items_tablet="{{ grid_number_tablet }}"
+	  								data-items_mobile="{{ grid_number_mobile }}"
+	  								data-items_mobiles="{{ grid_number_mobiles }}"
+	  								data-row="{{ row_number }}"
+                                 	data-loop="false"
+                                 	data-dots="{{ section.settings.show_dots }}"
+                                 	data-nav="{{ section.settings.show_nav }}"
+                                 	data-autoplay="false">
+                                    <div class="loading col-12"></div>
+                                </div>
+                            </div>
+  						{% endfor %}
+  					</div>
+				</div>
+			{% if section.settings.has_fullwidth == false %}
+				</div>
+			{% endif %}
+		</div>
+	</div>
+</div>
+
+{% schema %}
+	{
+		"name": "Vinova Collection Tabs",
+		"class": "index-section section-collection-tabs wow fadeIn animated",
+		"settings": [
+		{
+			"type": "text",
+			"id": "title",
+			"label": "Heading",
+			"default": "Vinova Collection Tabs"
+		},
+		{
+			"type": "text",
+			"id": "subheading",
+			"label": "Sub Heading",
+			"default": "Subtitle from happy customers"
+		},
+		{
+			"type": "select",
+			"id": "title_alignment",
+			"label": "Title alignment",
+			"default": "text-left",
+			"options": [
+			{
+				"value": "text-left",
+				"label": "Left"
+			},
+			{
+				"value": "text-center",
+				"label": "Center"
+			},
+			{
+				"value": "text-right",
+				"label": "Right"
+			}
+			]
+		},
+		{
+			"type": "range",
+			"id": "grid_number",
+			"min": 1,
+			"max": 6,
+			"step": 1,
+			"label": "Products per row",
+			"default": 4
+		},
+		{
+			"type": "range",
+			"id": "items_lg_desktop",
+			"min": 1,
+			"max": 6,
+			"step": 1,
+			"label": "Products per 1440px row (Desktop)",
+			"default": 4
+		},
+		{
+			"type": "range",
+			"id": "grid_number_lg_tablet",
+			"min": 1,
+			"max": 6,
+			"step": 1,
+			"label": "Products Desktop",
+			"default": 4
+		},
+		{
+			"type": "range",
+			"id": "grid_number_tablet",
+			"min": 1,
+			"max": 6,
+			"step": 1,
+			"label": "Products per row (tablet)",
+			"default": 4
+		},
+		{
+			"type": "range",
+			"id": "grid_number_mobile",
+			"min": 1,
+			"max": 6,
+			"step": 1,
+			"label": "Products per row (mobile)",
+			"default": 4
+		},
+		{
+			"type": "range",
+			"id": "grid_number_mobiles",
+			"min": 1,
+			"max": 6,
+			"step": 1,
+			"label": "Products per row 480 (mobiles)",
+			"default": 4
+		},
+		{
+			"type": "select",
+			"id": "row_number",
+			"label": "Number row",
+			"default": "1",
+			"options": [
+				{
+					"value": "1",
+					"label": "1"
+				},
+				{
+					"value": "2",
+					"label": "2"
+				},
+				{
+					"value": "3",
+					"label": "3"
+				},
+				{
+					"value": "4",
+					"label": "4"
+				}
+			]
+		},
+		{
+            "type": "text",
+            "id": "limit",
+            "label": "Limit",
+            "default": "8"
+        },
+		{
+			"type":  "header",
+			"content": "Design Option"
+		},
+		{
+			"type": "text",
+			"id": "class",
+			"label": "Class"
+		},
+		{
+			"type": "checkbox",
+			"id": "show_dots",
+			"label": "Show Dots (Only with Slider View)",
+			"default": false
+		},
+		{
+			"type": "checkbox",
+			"id": "show_nav",
+			"label": "Show Navigation (Only with Slider View)",
+			"default": true
+		},
+		{
+			"type": "checkbox",
+			"id": "has_fullwidth",
+			"label": "Full Width",
+			"default":   false
+		},
+		{
+			"type": "text",
+			"id": "distance_bottom",
+			"label": "Bottom Distance Section",
+			"default": "30px"
+		}
+		],
+		"blocks": [
+			{
+				"type": "tabitem",
+				"name": "Tab Item",
+				"settings": [
+					{
+						"type": "text",
+						"id": "tab_title",
+						"label": "Tab Title"
+					},
+					{
+						"type": "image_picker",
+						"id": "image_icon",
+						"label": "Image Icon"
+					},
+					{
+						"type": "collection",
+						"id": "collection_handle",
+						"label": "Collection"
+					}
+				]
+			}
+		],
+		"presets": [
+			{
+				"name": "Vinova Collection Tabs",
+				"category": "Collection",
+				"blocks": [
+					{
+						"type":"tabitem",
+						"settings":{
+							"tab_title": "Tab one",
+							"collection_handle": "frontpage"
+						}
+					},
+					{
+						"type":"tabitem",
+						"settings":{
+							"tab_title": "Tab Two",
+							"collection_handle": "frontpage"
+						}
+					},
+					{
+						"type":"tabitem",
+						"settings":{
+							"tab_title": "Tab Three",
+							"collection_handle": "frontpage"
+						}
+					}
+				]
+			}
+		]
+	}
+{% endschema %}

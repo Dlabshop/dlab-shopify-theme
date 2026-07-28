@@ -1,0 +1,169 @@
+{% if section.settings.title != blank %}
+    <div class="block-ourteam">
+        <div class="title_block">
+            <span>{{ section.settings.title | escape }}</span>
+        </div>
+        {% if section.settings.subheading != blank %}
+            <span class="sub_title">{{ section.settings.subheading | escape }}</span>
+        {% endif %}
+    </div>
+{% endif %}
+
+<div class="ourteam">
+    <div class="ourteam_grid">
+        <div class="row spacing-{{ section.settings.spacing }}">
+            {% case section.blocks.size %}
+                {% when 1 %}
+                    {%- assign column_size = 'col-lg-12 col-md-12 col-sm-12 col-xs-12' -%}
+                {% when 2 %}
+                    {%- assign column_size = 'col-lg-6 col-md-6 col-sm-6 col-xs-12' -%}
+                {% when 3 %}
+                    {%- assign column_size = 'col-lg-4 col-md-4 col-sm-4 col-xs-12' -%}
+                {% else %}
+                    {%- assign column_size = 'col-lg-3 col-md-4 col-sm-6 col-xs-12' -%}
+            {% endcase %}
+        
+            {% for block in section.blocks %}
+                <div class="{{ column_size }} ourteam_grid_column {{ section.settings.class }}" {{ block.shopify_attributes }}>
+                    <div class="ourteam__item lazyload">
+                        <div class="ourteam-author">
+                            {% if block.settings.avatar != blank %}
+                                <img class="ourteam-avatar" src="{{ block.settings.avatar | img_url: '270x' }}" alt="{% if block.settings.author != blank %}{{ block.settings.author }}{% else %}Avatar image{% endif %}">
+                            {% else %}
+                                {{ 'image' | placeholder_svg_tag: 'ourteam-item__avatar' }}
+                            {% endif %}
+                        </div>
+                        <div class="content-info">
+                            <div class="ourteam_you">
+                                {% if block.settings.author != blank %}
+                                    <div class="ourteam-item__name">{{ block.settings.author }}</div>
+                                {% endif %}
+                                {% if block.settings.job != blank %}
+                                    <div class="ourteam-item__info">{{ block.settings.job }}</div>
+                                {% endif %}
+                            </div>
+                            {% if block.settings.decs != blank %}
+                              <div class="ourteam-item__text">{{ block.settings.decs }}</div>
+                            {% endif %}
+                        </div>
+                        <div class="content-contact">
+                            <div class="ourteam_hotline">
+                                <i class="icon-phone"></i>
+                                <span>{{ block.settings.hotline }}</span>
+                            </div>
+                            <div class="ourteam_email">
+                                <i class="icon-email"></i>
+                                <span>{{ block.settings.email }}</span>
+                            </div>
+                        </div>
+
+                        {% include 'nov-social' %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+{% schema %}
+   {
+        "name": "vinova page ourteam",
+        "class": "index-section page-ourteam wow fadeIn animated",
+        "settings": [
+            {
+                "type": "text",
+                "id": "title",
+                "label": "Title"
+            },
+            {
+                "type": "text",
+                "id": "subheading",
+                "label": "Sub Heading"
+            },
+            {
+                "type": "select",
+                "id": "spacing",
+                "label": "Spacing Items",
+                "default": "0",
+                "options": [
+                    {
+                        "label": "0px",
+                        "value": "0"
+                    },
+                    {
+                        "label": "5px",
+                        "value": "5"
+                    },
+                    {
+                        "label": "10px",
+                        "value": "10"
+                    },
+                    {
+                        "label": "15px",
+                        "value": "15"
+                    },
+                    {
+                        "label": "20px",
+                        "value": "20"
+                    },
+                    {
+                        "label": "25px",
+                        "value": "25"
+                    },
+                    {
+                        "label": "30px",
+                        "value": "30"
+                    }
+                ]
+            },
+            {
+                "type": "text",
+                "id": "class",
+                "label": "Class"
+            }
+        ],
+        "blocks": [
+            {
+                "type": "quote",
+                "name": "ourteam",
+                "settings": [
+                    {
+                        "type": "image_picker",
+                        "id": "avatar",
+                        "label": "Avatar"
+                    },
+                    {
+                        "type": "text",
+                        "id": "author",
+                        "label": "Author",
+                        "default": "Author's name"
+                    },
+                    {
+                        "type": "text",
+                        "id": "job",
+                        "label": "Info Job",
+                        "default": "Developer"
+                    },
+                    {
+                        "type": "richtext",
+                        "id": "decs",
+                        "label": "Text",
+                        "default": "<p>Add customer reviews.</p>"
+                    },
+                    {
+                        "type": "text",
+                        "id": "hotline",
+                        "label": "hotline",
+                        "default": "(+612) 2531 5600"
+                    },
+                    {
+                        "type": "text",
+                        "id": "email",
+                        "label": "email",
+                        "default": "sonata@domain.com"
+                    }
+                ]
+            }
+        ]
+    }
+{% endschema %}
