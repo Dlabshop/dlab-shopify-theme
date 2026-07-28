@@ -1,0 +1,10 @@
+{% layout none %}
+<div class="products-grid">
+  <div class="grid-item">
+    {% for product in collection.products %}
+    	<div class="item col">
+      		{% include 'product-card-grid', img_size: '270x' %}
+    	</div>
+    {% endfor %}
+  </div>
+</div>

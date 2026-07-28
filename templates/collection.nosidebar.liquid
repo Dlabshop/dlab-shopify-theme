@@ -1,0 +1,23 @@
+{% comment %}
+  The contents of the collection.liquid template can be found in /sections/collection-template.liquid
+{% endcomment %}
+
+{% include 'nov-breadcrumb' %}
+
+<div class="page-width">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-xs-12 collection_no">
+                <div class="collection_title">{{ collection.title }}</div>
+                {% if collection.description != blank %}
+                    <div class="collection_description">
+                        {{ collection.description }}
+                    </div>
+                {% endif %}
+            </div>
+	      	<div class="col-lg-12 col-md-12 col-xs-12 nosider-view">
+	        	{% section 'collection-template' %}
+	      	</div>
+        </div>
+    </div>
+</div>
