@@ -1,0 +1,221 @@
+<!doctype html>
+<!--[if IE 9]> <html class="ie9 no-js" lang="{{ shop.locale }}"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!-->
+<html class="no-js{% if settings.enable_rtl == true %} lang-rtl{% endif %}" lang="{{ shop.locale }}"{% if settings.enable_rtl == true %} dir="rtl"{% endif %}>
+<!--<![endif]-->
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <meta name="theme-color" content="{{ settings.color_button }}">
+    <link rel="canonical" href="{{ canonical_url }}">
+
+    {% if settings.favicon != blank %}
+      <link rel="shortcut icon" href="{{ settings.favicon | img_url: '32x32' }}" type="image/png">
+    {% endif %}
+
+    {% capture seo_title %}
+      {{ page_title }}
+      {% if current_tags %}
+        {%- assign meta_tags = current_tags | join: ', ' %} &ndash; {{ 'general.meta.tags' | t: tags: meta_tags -}}
+      {% endif %}
+      {% if current_page != 1 %}
+        &ndash; {{ 'general.meta.page' | t: page: current_page }}
+      {% endif %}
+      {% unless page_title contains shop.name %}
+        &ndash; {{ shop.name }}
+      {% endunless %}
+    {% endcapture %}
+    <title>{{ seo_title }}</title>
+
+    {% if page_description %}
+      <meta name="description" content="{{ page_description | escape }}">
+    {% endif %}
+    {% include 'social-meta-tags' %}
+    {% include 'icon-fonts' %}
+    {% include 'nov-head-css' %}
+    {% include 'nov-head-js' %}
+  {{ content_for_header }}
+  </head>
+
+  <body class="template-{{ template | split: '.' | first }} home-1">
+    <a class="in-page-link visually-hidden skip-link" href="#MainContent">{{ 'general.accessibility.skip_to_content' | t }}</a>
+    {% section 'nov-header' %}
+    <main class="main-content" id="MainContent">
+      <section class="page-container" id="PageContainer">
+        {{ content_for_layout }}
+      </section>
+    </main>
+    {% section 'nov-footer' %}
+    
+    <div class="canvas-menu drawer-left">
+      <div class="canvas-header-box d-flex justify-content-between align-items-center">
+        <div class="title-box">{{ 'layout.mainmenu.title_box_mobile' | t }}</div>
+        <div class="close-box"><i class="zmdi zmdi-close"></i></div>
+      </div>
+    </div>
+    <div class="canvas-overlay"></div>
+
+    <div class="sidebar-overlay"></div>
+    {% include 'nov-formsearch' %}
+    
+    {% include 'nov-stickymenu-mobile' %}
+    
+    {% include 'nov-popup-newsletter' %}
+    
+    <div id="CustomerAccountForm" class="form-vertical modal fade">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-6">
+                {% form 'create_customer' %}
+                  <div class="title_block"><span>{{ 'customer.register.title' | t }}</span></div>
+                  <div class="sub-title"><span>{{ 'customer.register.sub_title' | t }}</span></div>
+                  {{ form.errors | default_errors }}
+
+                  <div class="block-form-register">
+                    <div class="form-group novform-firstname">
+                      <input type="text" name="customer[first_name]" id="FirstName" {% if form.first_name %} value="{{ form.first_name }}"{% endif %} placeholder="{{ 'customer.register.first_name' | t }}" required>
+                    </div>
+                    <div class="form-group novform-lastname">
+                      <input type="text" name="customer[last_name]" id="LastName" {% if form.last_name %} value="{{ form.last_name }}"{% endif %} placeholder="{{ 'customer.register.last_name' | t }}" required >
+                    </div>
+                    <div class="form-group novform-email">
+                      <input type="email" name="customer[email]" id="email_rigester" class="{% if form.errors contains 'email' %} input--error{% endif %}" {% if form.email %} value="{{ form.email }}"{% endif %} placeholder="Email" required >
+                    </div>
+                    <div class="form-group novform-password">
+                      <input type="password" name="customer[password]" id="CreatePassword" class="{% if form.errors contains 'password' %} input--error{% endif %}" placeholder="{{ 'customer.register.password' | t }}" required>
+                    </div>
+                    <div class="form-checkbox novform-newsletter">
+                      <label id="form-checkbox" class="custom_checkbox d-inline-flex">
+                        <span class="custom-checkbox">
+                          <input type="checkbox" name="newsletter" value="1">
+                        </span>
+                        <span class="text">{{ 'customer.register.checkbox_newsletter' | t }}</span>
+                      </label>
+                    </div>
+                    <div class="form_submit">
+                      <input type="submit" value="{{ 'customer.register.submit_register' | t }}" class="btn">
+                    </div>
+                  </div>
+                {% endform %}
+              </div>
+              <div class="col-6">
+                {% form 'customer_login' %}
+                  <div class="title-login">
+                    <div class="title_block"><span class="text-bold">{{ 'customer.login.log_in' | t }}</span></div>
+                  </div>
+                  <div class="block-form-login">
+                    <div class="title_form"><span>{{ 'customer.login.title_form' | t }}</span></div>
+                    <div class="form-group novform-email">
+                      <input type="email" name="customer[email]" id="Email_login" class="{% if form.errors contains 'email' %} input--error{% endif %}" placeholder="{{ 'customer.login.email_login' | t }}" required autofocus>
+                    </div>
+
+                    <div class="form-group novform-password">
+                      {% if form.password_needed %}
+                        <input type="password" value="" name="customer[password]" id="HeaderPassword" class="{% if form.errors contains 'password' %} input--error{% endif %}" placeholder="{{ 'customer.login.password_login' | t }}" required>
+                      {% endif %}
+                      <div class="hide_show_password" style="display: block;">
+                        <span class="show"><i class="zmdi zmdi-eye-off"></i></span>
+                      </div>
+                    </div>
+
+                    <div class="forgot_password">
+                      <i class="zmdi zmdi-email"></i>
+                      {% if form.password_needed %}
+                        <a href="#recover" id="RecoversPassword">
+                          {{ 'customer.login.forgot_password' | t }}<strong>{{ 'customer.login.password' | t }}</strong>
+                        </a>
+                      {% endif %}
+                    </div>
+
+                    <div class="form_submit">
+                      <input type="submit" class="btn" value="{{ 'customer.login.log_in' | t }}">
+                    </div>
+                  </div>
+                {% endform %}
+                
+                <div id="RecoverPasswordFormIndex" class="hide">
+                  <div class="title">
+                    {{ 'customer.recover_password.title' | t }}
+                  </div>
+
+                  <div class="form-vertical">
+                    {% form 'recover_customer_password' %}
+
+                    {{ form.errors | default_errors }}
+
+                    {% if form.posted_successfully? %}
+                      <span class="hide reset-password-success"></span>
+                    {% endif %}
+                    <div class="form-group novform-email">
+                      <input type="email" value="" name="email" id="RecoverEmail" class="input-full" placeholder="{{ 'customer.recover_password.email' | t }}" required>
+                    </div>
+                    <div class="d-flex groups-sub">
+                      <input type="submit" class="btn" value="{{ 'customer.recover_password.submit' | t }}">
+                      <button type="button" id="HideRecoverPasswordIndex" class="text-link">{{ 'customer.recover_password.cancel' | t }}</button>
+                    </div>
+                    {% endform %}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    {% if settings.wishlist_enable %}
+      {% include 'nov-popup-wishlist' %}
+    {% endif %}
+    
+    <div id="back-top">
+      <span>
+        <i class="fa fa-long-arrow-up"></i>
+      </span>
+    </div>
+    {% unless customer %}
+      <div id="AlertRequestLogin" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-sm modal-dialog-centered justify-content-center" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i class="zmdi zmdi-hc-fw zmdi-close"></i></button>
+            </div>
+            <div class="modal-body text-center">
+              <p>You must be logged in to manage your wishlist.</p>
+              <a href="{{ shop.secure_url }}/account/login" class="btn btn-default">Login in here</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endunless %}
+    
+    {% if settings.show_multiple_currencies == true %}
+      {% include 'nov-currency' %}
+    {% endif %}
+    <script>
+      jQuery(function() {
+        jQuery('.swatch :radio').change(function() {
+          var optionIndex = jQuery(this).closest('.swatch').attr('data-option-index');
+          var optionValue = jQuery(this).val();
+          jQuery(this)
+            .closest('form')
+            .find('.single-option-selector')
+            .eq(optionIndex)
+            .val(optionValue)
+            .trigger('change');
+          
+          jQuery(this).parents('.watch_availabel').find('span.variant_current').text(optionValue);
+        });
+        
+      });
+    </script>
+    {{ 'nuranium.js' | asset_url | script_tag }}
+  </body>
+</html>
