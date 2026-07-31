@@ -1902,7 +1902,7 @@
         "settings": {
           "spacing": "25",
           "has_fullwidth": false,
-          "background_color": "#EF0000",
+          "background_color": "#ef0000",
           "distance_top": "0",
           "distance_bottom": "25px"
         }
@@ -2031,8 +2031,8 @@
           "1598523283879-2"
         ],
         "settings": {
-          "height_slideshow": "1022",
-          "height_slideshow_desktop": "780",
+          "height_slideshow": "1000",
+          "height_slideshow_desktop": "500",
           "height_slideshow_tablet": "690",
           "height_slideshow_mobile": "500",
           "height_slideshow_mobile_475": "300",
@@ -2154,7 +2154,14 @@
       "1598524146058",
       "1598524350079",
       "1598524573747"
-    ]
+    ],
+    "blocks": {
+      "4672466289803156472": {
+        "type": "shopify://apps/essential-grid-gallery/blocks/app-embed/b252af1e-c43a-4272-b19c-e87bc447c686",
+        "disabled": true,
+        "settings": {}
+      }
+    }
   },
   "presets": {
     "home1": {
