@@ -334,9 +334,7 @@
           "title": "Page Not found",
           "subheading": "We’re sorry — something has gone wrong on our end.",
           "desc": "If difficulties persist, please contact the System Administrator of this site and report the error below..",
-          "background_color": "#00426f",
-          "background_image": "",
-          "image": "shopify://shop_images/404-1.png"
+          "background_color": "#00426f"
         }
       },
       "nov-map": {
@@ -1870,7 +1868,7 @@
             "settings": {
               "image": "shopify://shop_images/SPRUZZINO.jpg",
               "alignment": "bottom",
-              "class": "mb-sm-10",
+              "class": "col-xs-4 col-sm-4 col-md-4 mb-sm-10",
               "link": "shopify://collections/spray",
               "cta_label": ""
             }
@@ -1880,7 +1878,7 @@
             "settings": {
               "image": "shopify://shop_images/VETRI.jpg",
               "alignment": "center",
-              "class": "mb-sm-10",
+              "class": "col-xs-4 col-sm-4 col-md-4 mb-sm-10",
               "link": "shopify://collections/cura-dellauto",
               "cta_label": ""
             }
@@ -1890,7 +1888,7 @@
             "settings": {
               "image": "shopify://shop_images/foto_profumo.jpg",
               "alignment": "center",
-              "class": "",
+              "class": "col-xs-4 col-sm-4 col-md-4 mb-sm-10",
               "link": "shopify://collections/profumi",
               "cta_label": ""
             }
@@ -1906,7 +1904,7 @@
           "has_fullwidth": false,
           "background_color": "#EF0000",
           "distance_top": "0",
-          "distance_bottom": "65px"
+          "distance_bottom": "25px"
         }
       },
       "1598523283879": {
@@ -2036,8 +2034,8 @@
           "height_slideshow": "1022",
           "height_slideshow_desktop": "780",
           "height_slideshow_tablet": "690",
-          "height_slideshow_mobile": "340",
-          "height_slideshow_mobile_475": "170",
+          "height_slideshow_mobile": "500",
+          "height_slideshow_mobile_475": "300",
           "autoplay": true,
           "autoplay_speed": "5000",
           "arrows": true,
@@ -2125,7 +2123,7 @@
       "1598524573747": {
         "type": "nov-group-collection-product",
         "settings": {
-          "title": "NEWS",
+          "title": "NOVITA'",
           "sub_title": "",
           "background_color": "#000000",
           "list_category": "",
