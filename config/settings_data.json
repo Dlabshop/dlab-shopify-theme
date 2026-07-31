@@ -977,8 +977,8 @@
           "novmenu_enable": true,
           "show_icons": true,
           "show_header_top": true,
-          "main_linklist": "main-menu",
-          "vertical_menu": "customer-account-main-menu",
+          "main_linklist": "pi-venduti",
+          "vertical_menu": "main-menu",
           "phone_number": "+39 800-140-10000",
           "phone_support": "Lun - Ven: 08:00 - 17:00"
         }
