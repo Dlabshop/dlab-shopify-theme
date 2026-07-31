@@ -975,7 +975,7 @@
           "logo_max_width": "140",
           "stickymenu": true,
           "novmenu_enable": true,
-          "show_icons": true,
+          "show_icons": false,
           "show_header_top": true,
           "main_linklist": "pi-venduti",
           "vertical_menu": "main-menu",
